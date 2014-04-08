@@ -22,6 +22,7 @@ public class LevelGenerator : MonoBehaviour {
 
     public Object[] PrefabArray;            // Array of walls
     public int i_SizeDiff = 1;              // Size of each tile in 3D.
+	private string filename = "";
 
     // Reading from text file, through " " delim.
     string[][] readFile(string file)
@@ -42,31 +43,33 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-        string[][] jagged = readFile("Level.txt");
+		string[][] jagged = readFile("Level1.txt");
         
-        // Random Map Layout. Temp Use
-        // Temp use only, Comment out when done.
-        for (int y = 0; y < 25; y++)
+//        // Random Map Layout. Temp Use
+//        // Temp use only, Comment out when done.
+//        for (int y = 0; y < 25; y++)
+//        {
+//            for (int x = 0; x < 25; x++)
+//            {
+//                int Value = Random.Range(0,4);
+//                //Debug.Log((x * y + y) + ": " + Value);
+//                Instantiate(PrefabArray[Value], new Vector3(0.5f + (x * i_SizeDiff), 0.5f, 0.5f + (y * i_SizeDiff)), Quaternion.identity);
+//            }
+//        }
+		
+        // Map Generator Through Text file
+        // Remember to comment back
+        for (int y = 0; y < jagged.Length; y++)
         {
-            for (int x = 0; x < 25; x++)
+            for (int x = 0; x < jagged[0].Length; x++)
             {
-                int Value = Random.Range(0,4);
-                //Debug.Log((x * y + y) + ": " + Value);
-                Instantiate(PrefabArray[Value], new Vector3(0.5f + (x * i_SizeDiff), 0.5f, 0.5f + (y * i_SizeDiff)), Quaternion.identity);
+                int Value = int.Parse(jagged[y][x]);
+				//var Prefab = PrefabArray[Value];
+
+                Debug.Log((x * y + y) + ": " + Value);
+				Instantiate(PrefabArray[Value], new Vector3((x * i_SizeDiff) + 0.5f, 0.5f, (y * i_SizeDiff) + 0.5f), Quaternion.identity);
             }
         }
-
-        //// Map Generator Through Text file
-        // Remember to comment back
-        //for (int y = 0; y < jagged.Length; y++)
-        //{
-        //    for (int x = 0; x < jagged[0].Length; x++)
-        //    {
-        //        int Value = int.Parse(jagged[y][x]);
-        //        Debug.Log((x * y + y) + ": " + Value);
-        //        Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
-        //    }
-        //}
     }
 	
 	// Update is called once per frame
