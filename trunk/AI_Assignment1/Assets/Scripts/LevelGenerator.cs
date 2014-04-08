@@ -67,6 +67,18 @@ public class LevelGenerator : MonoBehaviour {
                 Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
             }
         }
+
+        jagged = readFile("Level1AIWaypoints.txt");
+
+        for (int y = 0; y < jagged.Length; y++)
+        {
+            for (int x = 0; x < jagged[0].Length; x++)
+            {
+                int Value = int.Parse(jagged[y][x]);
+                //Debug.Log((x * y + y) + ": " + Value);
+                Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
+            }
+        }
     }
 	
 	// Update is called once per frame
