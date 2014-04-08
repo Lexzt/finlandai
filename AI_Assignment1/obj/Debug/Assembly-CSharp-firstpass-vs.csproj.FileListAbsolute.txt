@@ -1,0 +1,11 @@
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\UnityEditor.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\UnityEngine.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\nunit.framework.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\obj\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\KBI13XZhiZF\Desktop\Finland AI\trunk\AI_Assignment1\obj\Debug\Assembly-CSharp-firstpass.pdb
