@@ -69,6 +69,56 @@ dp4 oPos.x, v0, c0
 "
 }
 
+SubProgram "xbox360 " {
+Keywords { }
+Bind "vertex" Vertex
+Bind "color" COLOR
+Bind "texcoord" TexCoord0
+Vector 4 [_MainTex_ST]
+Matrix 0 [glstate_matrix_mvp] 4
+// Shader Timing Estimate, in Cycles/64 vertex vector:
+// ALU: 8.00 (6 instructions), vertex: 32, texture: 0,
+//   sequencer: 10,  4 GPRs, 31 threads,
+// Performance (if enough threads): ~32 cycles per vector
+// * Vertex cycle estimates are assuming 3 vfetch_minis for every vfetch_full,
+//     with <= 32 bytes per vfetch_full group.
+
+"vs_360
+backbbabaaaaabaeaaaaaajmaaaaaaaaaaaaaaceaaaaaaaaaaaaaamaaaaaaaaa
+aaaaaaaaaaaaaajiaaaaaabmaaaaaailpppoadaaaaaaaaacaaaaaabmaaaaaaaa
+aaaaaaieaaaaaaeeaaacaaaeaaabaaaaaaaaaafaaaaaaaaaaaaaaagaaaacaaaa
+aaaeaaaaaaaaaaheaaaaaaaafpengbgjgofegfhifpfdfeaaaaabaaadaaabaaae
+aaabaaaaaaaaaaaaghgmhdhegbhegffpgngbhehcgjhifpgnhghaaaklaaadaaad
+aaaeaaaeaaabaaaaaaaaaaaahghdfpddfpdaaadccodacodcdadddfddcodaaakl
+aaaaaaaaaaaaaajmaabbaaadaaaaaaaaaaaaaaaaaaaabiecaaaaaaabaaaaaaad
+aaaaaaacaaaaacjaaabaaaadaaaakaaeaadafaafaaaadafaaaabpbkaaaaabaal
+aaaabaakhabfdaadaaaabcaamcaaaaaaaaaaeaagaaaabcaameaaaaaaaaaacaak
+aaaaccaaaaaaaaaaafpidaaaaaaaagiiaaaaaaaaafpibaaaaaaaagiiaaaaaaaa
+afpiaaaaaaaaapmiaaaaaaaamiapaaacaabliiaakbadadaamiapaaacaamgiiaa
+kladacacmiapaaacaalbdejekladabacmiapiadoaagmaadekladaaacmiapiaab
+aaaaaaaaocababaamiadiaaaaalalabkilaaaeaeaaaaaaaaaaaaaaaaaaaaaaaa
+"
+}
+
+SubProgram "ps3 " {
+Keywords { }
+Matrix 256 [glstate_matrix_mvp]
+Bind "vertex" Vertex
+Bind "color" Color
+Bind "texcoord" TexCoord0
+Vector 467 [_MainTex_ST]
+"sce_vp_rsx // 6 instructions using 1 registers
+[Configuration]
+8
+0000000601090100
+[Microcode]
+96
+401f9c6c0040030d8106c0836041ff84401f9c6c011d3808010400d740619f9c
+401f9c6c01d0300d8106c0c360403f80401f9c6c01d0200d8106c0c360405f80
+401f9c6c01d0100d8106c0c360409f80401f9c6c01d0000d8106c0c360411f81
+"
+}
+
 SubProgram "d3d11 " {
 Keywords { }
 Bind "vertex" Vertex
@@ -614,6 +664,49 @@ mul r1, v0, c0
 mul r0, r1, r0
 mul r0, r0, c1.x
 mov_pp oC0, r0
+"
+}
+
+SubProgram "xbox360 " {
+Keywords { }
+Vector 0 [_TintColor]
+SetTexture 0 [_MainTex] 2D
+// Shader Timing Estimate, in Cycles/64 pixel vector:
+// ALU: 4.00 (3 instructions), vertex: 0, texture: 4,
+//   sequencer: 6, interpolator: 16;    3 GPRs, 63 threads,
+// Performance (if enough threads): ~16 cycles per vector
+// * Texture cycle estimates are assuming an 8bit/component texture with no
+//     aniso or trilinear filtering.
+
+"ps_360
+backbbaaaaaaaaoaaaaaaafeaaaaaaaaaaaaaaceaaaaaaaaaaaaaaliaaaaaaaa
+aaaaaaaaaaaaaajaaaaaaabmaaaaaaidppppadaaaaaaaaacaaaaaabmaaaaaaaa
+aaaaaahmaaaaaaeeaaadaaaaaaabaaaaaaaaaafaaaaaaaaaaaaaaagaaaacaaaa
+aaabaaaaaaaaaagmaaaaaaaafpengbgjgofegfhiaaklklklaaaeaaamaaabaaab
+aaabaaaaaaaaaaaafpfegjgoheedgpgmgphcaaklaaabaaadaaabaaaeaaabaaaa
+aaaaaaaahahdfpddfpdaaadccodacodcdadddfddcodaaaklaaaaaaaaaaaaaafe
+baaaacaaaaaaaaaiaaaaaaaaaaaabiecaaabaaadaaaaaaabaaaadafaaaaapbka
+aaabbaacaaaabcaameaaaaaaaaaadaadaaaaccaaaaaaaaaabaaiaaabbpbppgii
+aaaaeaaamiapabacaaaaaaaacaaaaaaamiapababaaaaaaaaobacabaamiapiaaa
+aaaaaaaaobabaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}
+
+SubProgram "ps3 " {
+Keywords { }
+Vector 0 [_TintColor]
+SetTexture 0 [_MainTex] 2D
+"sce_fp_rsx // 4 instructions using 2 registers
+[Configuration]
+24
+ffffffff000040250001ffff000000000000840002000000
+[Offsets]
+1
+_TintColor 1 0
+00000020
+[Microcode]
+64
+9e001700c8011c9dc8000001c8003fe13e020200c8011c9dc8020001c8003fe1
+000000000000000000000000000000001e810200c8041c9dc8001001c8000001
 "
 }
 
