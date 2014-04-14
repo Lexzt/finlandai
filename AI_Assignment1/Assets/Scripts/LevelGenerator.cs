@@ -21,7 +21,7 @@ public class LevelGenerator : MonoBehaviour {
     //public Object Player;                   // Player prefab, to spawn when created.
 
     public Object[] PrefabArray;            // Array of walls
-    public int i_SizeDiff = 1;              // Size of each tile in 3D.
+    public float f_SizeDiff = 1;              // Size of each tile in 3D.
 
     // Reading from text file, through " " delim.
     string[][] readFile(string file)
@@ -64,21 +64,21 @@ public class LevelGenerator : MonoBehaviour {
             {
                 int Value = int.Parse(jagged[y][x]);
                 //Debug.Log((x * y + y) + ": " + Value);
-                Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
+                Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity);
             }
         }
 
-        jagged = readFile("Level1AIWaypoints.txt");
+        //jagged = readFile("Level1AIWaypoints.txt");
 
-        for (int y = 0; y < jagged.Length; y++)
-        {
-            for (int x = 0; x < jagged[0].Length; x++)
-            {
-                int Value = int.Parse(jagged[y][x]);
-                //Debug.Log((x * y + y) + ": " + Value);
-                Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
-            }
-        }
+        //for (int y = 0; y < jagged.Length; y++)
+        //{
+        //    for (int x = 0; x < jagged[0].Length; x++)
+        //    {
+        //        int Value = int.Parse(jagged[y][x]);
+        //        //Debug.Log((x * y + y) + ": " + Value);
+        //        Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
+        //    }
+        //}
     }
 	
 	// Update is called once per frame
