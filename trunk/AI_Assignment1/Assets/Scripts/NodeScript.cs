@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class NodeScript : MonoBehaviour {
 
-    public List<GameObject> neighbors;
+	public List<GameObject> neighbors;
     public GameObject goal;
 
     void Start()
