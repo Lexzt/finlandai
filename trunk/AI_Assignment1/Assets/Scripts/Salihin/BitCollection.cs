@@ -18,7 +18,11 @@ public class BitCollection : MonoBehaviour {
 	{
 		if(BitCollider.gameObject.tag == "Bits")
 		{
-			Destroy(BitCollider.gameObject);												//destroy the Bit Player has collided against
+			//Destroy(BitCollider.gameObject);												//destroy the Bit Player has collided against
+
+            BitCollider.GetComponent<MeshRenderer>().enabled = false;
+            BitCollider.GetComponent<SphereCollider>().enabled = false;
+            BitCollider.GetComponent<SphereCollider>().isTrigger = false;
 			GetComponent<PlayerScript>().AddBitPoint();										//add point upon collision with a Bit
 		}
 	}

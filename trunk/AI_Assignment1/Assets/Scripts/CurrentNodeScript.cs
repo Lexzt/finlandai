@@ -15,7 +15,7 @@ public class CurrentNodeScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        if (!m_bisAI || currentNode == null)
+        if (m_bisAI || currentNode == null)
         {
             SetCurrentNode();
         }
@@ -24,7 +24,7 @@ public class CurrentNodeScript : MonoBehaviour {
     void SetCurrentNode()
     {
         float f_ShortestDistance = Mathf.Infinity;
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("EnvironmentCube"))
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Bits"))
         {
             float f_Distance = (obj.transform.position - transform.position).magnitude;
             if (f_Distance < f_ShortestDistance)
@@ -37,7 +37,7 @@ public class CurrentNodeScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "EnvironmentCube")
+        if (col.tag == "Bits")
         {
             currentNode = col.gameObject;
         }
