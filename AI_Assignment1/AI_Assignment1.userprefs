@@ -1,11 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CurrentNodeScript.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../BehaviourTree/Assets/Standard Assets/Character Controllers/Sources/Scripts/ThirdPersonController.js">
     <Files>
-      <File FileName="Assets\Scripts\CurrentNodeScript.cs" Line="18" Column="36" />
-      <File FileName="Assets\Scripts\NodeScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AIPathfindingScript.cs" Line="33" Column="48" />
-      <File FileName="Assets\Scripts\DijkstraAlgorithm.cs" Line="5" Column="1" />
+      <File FileName="../../../BehaviourTree/Assets/Standard Assets/Character Controllers/Sources/Scripts/ThirdPersonController.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
