@@ -22,12 +22,13 @@ public class LevelGenerator : MonoBehaviour {
 
     public Object[] PrefabArray;            // Array of walls
     public float f_SizeDiff = 1;              // Size of each tile in 3D.
+	public GameObject Player;
 
     // Reading from text file, through " " delim.
     string[][] readFile(string file)
     {
         string text = System.IO.File.ReadAllText(file);
-        string[] lines = Regex.Split(text, "\r\n");
+        string[] lines = Regex.Split(text, "\n");
         int rows = lines.Length;
 
         string[][] levelBase = new string[rows][];
@@ -42,7 +43,9 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-        string[][] jagged = readFile("Level1.txt");
+		//transform.position = playerSpawn.transform.position;
+
+        string[][] jagged = readFile("Assets/Resources/LEVEL_1.txt");
         
         //// Random Map Layout. Temp Use
         //// Temp use only, Comment out when done.
@@ -58,7 +61,7 @@ public class LevelGenerator : MonoBehaviour {
 
         // Map Generator Through Text file
         // Remember to comment back
-        for (int y = 0; y < jagged.Length; y++)
+        for (int y = 0; y < jagged.Length - 1; y++)
         {
             for (int x = 0; x < jagged[0].Length; x++)
             {
@@ -68,6 +71,9 @@ public class LevelGenerator : MonoBehaviour {
             }
         }
 
+		//GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+		DisableMeshRenderer();
+		Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity);
         //jagged = readFile("Level1AIWaypoints.txt");
 
         //for (int y = 0; y < jagged.Length; y++)
@@ -84,5 +90,11 @@ public class LevelGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	void DisableMeshRenderer()
+	{
+		GameObject.FindGameObjectWithTag("PlayerSpawn").GetComponent<MeshRenderer>().enabled = false;
+		GameObject.FindGameObjectWithTag("EnemySpawn").GetComponent<MeshRenderer>().enabled = false;
 	}
 }

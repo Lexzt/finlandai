@@ -5,9 +5,15 @@ Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-
 EndProject
 Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-CSharp.csproj", "{C3C475BE-D1E4-B546-6F80-308BE011CD2C}"
 EndProject
+Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-CSharp-Editor.csproj", "{D8D7F393-E5DC-B112-BAE4-00543132E529}"
+EndProject
+Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-Boo-Editor.booproj", "{FB62920F-FEEA-E50C-DCA8-E622E7E86FF4}"
+EndProject
 Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-UnityScript-firstpass.unityproj", "{F92FE328-D7F7-D79A-27DB-C177FAE3277D}"
 EndProject
 Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-UnityScript.unityproj", "{FFD3A3CB-D514-F637-C604-722524E30A59}"
+EndProject
+Project("{B3440355-2593-170E-4A05-4CF043467148}") = "AI_Assignment1", "Assembly-UnityScript-Editor.unityproj", "{8C85B4E2-E413-670B-A042-27FE27A5ADD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +29,14 @@ Global
 		{C3C475BE-D1E4-B546-6F80-308BE011CD2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C475BE-D1E4-B546-6F80-308BE011CD2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3C475BE-D1E4-B546-6F80-308BE011CD2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D7F393-E5DC-B112-BAE4-00543132E529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D7F393-E5DC-B112-BAE4-00543132E529}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D7F393-E5DC-B112-BAE4-00543132E529}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D7F393-E5DC-B112-BAE4-00543132E529}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB62920F-FEEA-E50C-DCA8-E622E7E86FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB62920F-FEEA-E50C-DCA8-E622E7E86FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB62920F-FEEA-E50C-DCA8-E622E7E86FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB62920F-FEEA-E50C-DCA8-E622E7E86FF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F92FE328-D7F7-D79A-27DB-C177FAE3277D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F92FE328-D7F7-D79A-27DB-C177FAE3277D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92FE328-D7F7-D79A-27DB-C177FAE3277D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,11 +45,15 @@ Global
 		{FFD3A3CB-D514-F637-C604-722524E30A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD3A3CB-D514-F637-C604-722524E30A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD3A3CB-D514-F637-C604-722524E30A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C85B4E2-E413-670B-A042-27FE27A5ADD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C85B4E2-E413-670B-A042-27FE27A5ADD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C85B4E2-E413-670B-A042-27FE27A5ADD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C85B4E2-E413-670B-A042-27FE27A5ADD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																														GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																								GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
