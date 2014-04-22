@@ -6,6 +6,8 @@ public class NodeDetails : MonoBehaviour {
 	// Id of the prefab count
 	public int id = 0;
 
+	public int waypointID = 0;
+
 	// x and y position in the list
 	public int x = 0;
 	public int y = 0;
@@ -32,7 +34,7 @@ public class NodeDetails : MonoBehaviour {
 		currentObject.transform.parent = GetComponent<Transform>();
 		currentObject.transform.localPosition = Vector3.zero;
 	}
-
+	
 	public void TrackOldShader()
 	{
 		GetComponent<ToggleOutline> ().OriginalShader (currentObject.GetComponent<Renderer>().material.shader);
