@@ -9,60 +9,124 @@ public class AIPathfindingScript : MonoBehaviour {
     public float m_fSphereCastRadius    = 0.5f;
 
     private GameObject goal;
-	private Stack<GameObject> s_Path = null;
+	public Stack<GameObject> s_Path = null;
 
 	public GameObject currentEnd = null;
 
 	private float startTime;
 	private float journeyLength;
-	// Use this for initialization
-	void Start () 
+
+    private GameObject currentTarget;
+    //private Transform playerTrans;
+    private bool m_bReCalc = false;
+    private Transform currentEndTrans;
+	
+    void Start () 
     {
-	
-	}
-	
+        GameObject Newplayer = GameObject.FindGameObjectWithTag("Player");
+        currentTarget = new GameObject();
+        currentTarget.transform.position = new Vector3(Newplayer.transform.position.x, Newplayer.transform.position.y, Newplayer.transform.position.z);
+    }
+
 	// Update is called once per frame
 	void Update () 
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-		if(s_Path == null)
-		{
+        //if (player.GetComponent<CurrentNodeScript>().GetType() != playerCurrent.GetComponent<CurrentNodeScript>().GetType())
+        //{
+        //    s_Path.Clear();
+        //}
+        //Debug.Log("Player: " + player.transform.position.x + " " + player.transform.position.y + " " + player.transform.position.z);
+        //Debug.Log("Current: " + playerTrans.position.x + " " + playerTrans.position.y + " " + playerTrans.position.z);
+        //if (!(player.transform.position.Equals(playerTrans)) && s_Path != null)
+        //{
+        //    s_Path.Clear();
+        //    Debug.Log("Recalc");
+        //}
+
+        //Debug.Log("EndPt : " + currentTarget.transform.position.x + " " + currentTarget.transform.position.y + " " + currentTarget.transform.position.z);
+        //Debug.Log("Player: " + player.transform.position.x + " " + player.transform.position.y + " " + player.transform.position.z);
+        //Debug.Log("Recalc: " + m_bReCalc);
+
+
+
+        //if (m_bReCalc == true)
+        //{
+        //    s_Path.Clear();
+        //    s_Path = DijkstraAlgorithm.Dijkstra(
+        //             GameObject.FindGameObjectsWithTag("EnvironmentCube"),
+        //             gameObject.GetComponent<CurrentNodeScript>().currentNode,
+        //             player.GetComponent<CurrentNodeScript>().currentNode);
+
+        //    currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+        //    m_bReCalc = false;
+        //}
+
+        //if (player.rigidbody.velocity.magnitude > 0 && s_Path != null)
+        //{
+        //    s_Path.Clear();
+        //    s_Path = DijkstraAlgorithm.Dijkstra(
+        //             GameObject.FindGameObjectsWithTag("EnvironmentCube"),
+        //             gameObject.GetComponent<CurrentNodeScript>().currentNode,
+        //             player.GetComponent<CurrentNodeScript>().currentNode);
+        //}
+
+        if (currentTarget.transform.position.x != player.transform.position.x &&
+            currentTarget.transform.position.z != player.transform.position.z)
+        {
+            m_bReCalc = true;
+        }
+        else
+        {
+            m_bReCalc = false;
+        }
+
+        if(s_Path == null)
+        {
 			s_Path = DijkstraAlgorithm.Dijkstra(
-					 GameObject.FindGameObjectsWithTag("EnvironmentCube"),
+					 GameObject.FindGameObjectsWithTag("Bits"),
 					 gameObject.GetComponent<CurrentNodeScript>().currentNode,
 					 player.GetComponent<CurrentNodeScript>().currentNode);
 		}
-		else if(s_Path != null)
-		{
-			if(currentEnd == null || transform.position == currentEnd.transform.position)
-			{
-				currentEnd = s_Path.Pop();
+        else if (m_bReCalc == true)
+        {
+            Debug.Log("Re calculating Path");
 
-				startTime = Time.time;
-				journeyLength = Vector3.Distance(transform.position, currentEnd.transform.position);
-			}
-			else
-			{
-				float distCovered = (Time.time - startTime) * m_fSpeed;
-				float fracJourney = distCovered / journeyLength;
+            m_bReCalc = false;
+            currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
 
-				transform.position = Vector3.Lerp(transform.position,currentEnd.transform.position, fracJourney);
-			}
-//				Debug.Log("Current End: "+currentEnd.transform.position.x+" "+currentEnd.transform.position.y+" "+currentEnd.transform.position.z);
-//				//transform.position = currentEnd.transform.position;
-//
-//
-//				Vector3 v_goalPosition = currentEnd.transform.position;
-//				Vector3 v_goalDirection = v_goalPosition - transform.position;
-//				v_goalDirection.y = 0.0f;
-//				Vector3 v_normalizedDirection = v_goalDirection.normalized;
-//				transform.position += transform.forward * m_fSpeed * Time.deltaTime;
-//				//transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(v_normalizedDirection), m_fTurnSpeed * Time.deltaTime);
-//			}
-		}
+            s_Path.Clear();
+            s_Path = DijkstraAlgorithm.Dijkstra(
+                     GameObject.FindGameObjectsWithTag("Bits"),
+                     gameObject.GetComponent<CurrentNodeScript>().currentNode,
+                     player.GetComponent<CurrentNodeScript>().currentNode);
+        }
+        else if (s_Path != null)
+        {
+            if (currentEnd == null || transform.position == currentEnd.transform.position)
+            {
+                Debug.Log("Pop Stack");
+                currentEnd = s_Path.Pop();
+
+                startTime = Time.time;
+                journeyLength = Vector3.Distance(transform.position, currentEnd.transform.position);
+            }
+            else
+            {
+                float distCovered = (Time.time - startTime) * m_fSpeed;
+                float fracJourney = distCovered / journeyLength;
+
+                transform.position = Vector3.Lerp(transform.position, currentEnd.transform.position, fracJourney);
+            }
+        }
+        //Debug.Log(s_Path.Count);
+
+        //foreach (GameObject obj in s_Path)
+        //{
+        //    Debug.Log(obj.transform.position.x + " " + obj.transform.position.y + " " + obj.transform.position.z);
+        //}
 	}
-
         //Debug.Log(player.transform.position.x + " " + player.transform.position.y + " " + player.transform.position.z);
 //		//If the dude can be "seen" (Via raycast) then chase
 //		RaycastHit hit;

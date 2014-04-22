@@ -10,7 +10,7 @@ public class NodeScript : MonoBehaviour {
     void Start()
     {
         Vector3 CurrentPos = transform.position;
-        foreach (GameObject v in GameObject.FindGameObjectsWithTag("EnvironmentCube"))
+        foreach (GameObject v in GameObject.FindGameObjectsWithTag("Bits"))
         {
             // Check Left
             if (v.transform.position.x == CurrentPos.x + 1 &&
@@ -59,7 +59,7 @@ public class NodeScript : MonoBehaviour {
         {
             Gizmos.color = Color.green;
             GameObject current = gameObject;
-            Stack<GameObject> path = DijkstraAlgorithm.Dijkstra(GameObject.FindGameObjectsWithTag("EnvironmentCube"), gameObject, goal);
+            Stack<GameObject> path = DijkstraAlgorithm.Dijkstra(GameObject.FindGameObjectsWithTag("Bits"), gameObject, goal);
 
             foreach (GameObject obj in path)
             {

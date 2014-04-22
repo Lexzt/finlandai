@@ -65,7 +65,6 @@
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
-     <None Include="Assets\RAIN\Editor\Shaders\AspectRingShader.shader" />
      <None Include="Assets\Resources\Level1AIWaypoints.txt" />
      <None Include="Assets\Resources\Level3.txt" />
      <None Include="Assets\Resources\LEVEL_1PatrolWaypoints.txt" />
@@ -73,9 +72,6 @@
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Detail.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
-     <None Include="Assets\RAIN\Editor\Shaders\NavMeshContourShader.shader" />
-     <None Include="Assets\RAIN\Editor\Shaders\VisualSensorRingShader.shader" />
-     <None Include="Assets\RAIN\Editor\Shaders\WaypointShader.shader" />
      <None Include="Assets\Resources\Level1.txt" />
      <None Include="Assets\Resources\Level1PatrolWaypoints.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
@@ -84,28 +80,18 @@
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
-     <None Include="Assets\RAIN\Editor\Shaders\VisualSensorLineShader.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\Resources\Level.txt" />
      <None Include="Assets\Resources\Level2PatrolWaypoints.txt" />
-     <None Include="Assets\RAIN\Editor\ScriptTemplates\BehaviorTreeTemplate.xml" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
-     <None Include="Assets\RAIN\Editor\Shaders\AspectSphereShader.shader" />
      <None Include="Assets\Resources\Level2.txt" />
-     <None Include="Assets\RAIN\Editor\Shaders\NavMeshColliderShader.shader" />
      <None Include="Assets\Resources\LEVEL_1.txt" />
      <None Include="Assets\Standard Assets\Tessellation Shaders\BumpedSpecularDisplacement.shader" />
      <None Include="Assets\Resources\Level4.txt" />
      <None Include="Assets\Resources\Level4PatrolWaypoints.txt" />
- <Reference Include="RAIN">
- <HintPath>Assets\RAIN\RAIN.dll</HintPath>
- </Reference>
- <Reference Include="RAINMetaform">
- <HintPath>Assets\RAIN\RAINMetaform.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
