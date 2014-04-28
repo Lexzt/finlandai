@@ -26,6 +26,8 @@ public class NodeDetails : MonoBehaviour {
 
 		currentObject = Instantiate(PrefabArray[id], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 
+		currentObject.GetComponent<NodeScript> ().enabled = false;
+
 		if(currentObject.collider)
 		{
 			currentObject.collider.enabled = false;

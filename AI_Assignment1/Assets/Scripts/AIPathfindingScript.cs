@@ -52,7 +52,7 @@ public class AIPathfindingScript : MonoBehaviour {
 		}
         else if (m_bReCalc == true)
         {
-            Debug.Log("Re calculating Path");
+            //Debug.Log("Re calculating Path");
 
             m_bReCalc = false;
             currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
@@ -70,7 +70,7 @@ public class AIPathfindingScript : MonoBehaviour {
 	        {
 	            if (currentEnd == null || transform.position == currentEnd.transform.position)
 	            {
-	                Debug.Log("Pop Stack");
+	                //Debug.Log("Pop Stack");
 	                currentEnd = s_Path.Pop();
 
 	                startTime = Time.time;

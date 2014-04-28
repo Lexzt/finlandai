@@ -281,7 +281,7 @@ public class EditLevel : MonoBehaviour {
 				assignedNode.GetComponent<NodeDetails>().y = y;
 				assignedNode.GetComponent<NodeDetails>().waypointID = int.Parse(jaggedWaypoints[y][x]); // assign the waypoint to the node
 				assignedNode.GetComponent<NodeDetails>().SetTypeOfPrefab();
-				
+
 				// Finally store the node
 				firstDimensionArray.Add(assignedNode);
 			}
