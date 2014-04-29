@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 public class LevelGenerator : MonoBehaviour {
@@ -24,6 +25,22 @@ public class LevelGenerator : MonoBehaviour {
     public float f_SizeDiff = 1;              // Size of each tile in 3D.
 	public GameObject Player;
 
+	// .txt file to load you level from
+	public string levelName = "Assets/Resources/LEVEL_1.txt";
+	
+	private string waypointStringDifference = "PatrolWaypoints";
+	
+	public string waypointName;
+
+	// stores the new level's data if theres such a thing
+	public List<List<int>> waypointNodes = new List<List<int>>();
+
+	// Stores all the map data in numbers
+	public List<List<int>> mapData = new List<List<int>>();
+	
+
+
+
     // Reading from text file, through " " delim.
     string[][] readFile(string file)
     {
@@ -45,46 +62,44 @@ public class LevelGenerator : MonoBehaviour {
     {
 		//transform.position = playerSpawn.transform.position;
 
+		// clear the list if there was anything inside it just in case
+		waypointNodes.Clear ();
+
         string[][] jagged = readFile("Assets/Resources/LEVEL_1.txt");
-        
-        //// Random Map Layout. Temp Use
-        //// Temp use only, Comment out when done.
-        //for (int y = 0; y < 25; y++)
-        //{
-        //    for (int x = 0; x < 25; x++)
-        //    {
-        //        int Value = Random.Range(0,4);
-        //        //Debug.Log((x * y + y) + ": " + Value);
-        //        Instantiate(PrefabArray[Value], new Vector3(0.5f + (x * i_SizeDiff), 0.5f, 0.5f + (y * i_SizeDiff)), Quaternion.identity);
-        //    }
-        //}
+
+		waypointName = levelName;
+		waypointName = waypointName.Insert (waypointName.Length - 4, waypointStringDifference);
+		
+		string[][] jaggedWaypoints = readFile (waypointName);
 
         // Map Generator Through Text file
         // Remember to comment back
         for (int y = 0; y < jagged.Length - 1; y++)
         {
+			List<int> firstWaypointArray = new List<int>();
+			List<int> firstMapData = new List<int>();
+
             for (int x = 0; x < jagged[0].Length; x++)
             {
                 int Value = int.Parse(jagged[y][x]);
                 //Debug.Log((x * y + y) + ": " + Value);
                 Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity);
+				firstWaypointArray.Add(int.Parse(jaggedWaypoints[y][x])); // assign the waypoint to the node
+				firstMapData.Add(int.Parse(jagged[y][x]));
             }
+			waypointNodes.Add(firstWaypointArray);
+			mapData.Add(firstMapData);
         }
+
+
+
+
 
 		//GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
 		DisableMeshRenderer();
-		Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity);
-        //jagged = readFile("Level1AIWaypoints.txt");
 
-        //for (int y = 0; y < jagged.Length; y++)
-        //{
-        //    for (int x = 0; x < jagged[0].Length; x++)
-        //    {
-        //        int Value = int.Parse(jagged[y][x]);
-        //        //Debug.Log((x * y + y) + ": " + Value);
-        //        Instantiate(PrefabArray[Value], new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity);
-        //    }
-        //}
+		// Create the player at the Spawn Point
+		Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity);
     }
 	
 	// Update is called once per frame
