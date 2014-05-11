@@ -50,10 +50,12 @@
      <Compile Include="Assets\Scripts\CurrentNodeScript.cs" />
      <Compile Include="Assets\Scripts\DijkstraAlgorithm.cs" />
      <Compile Include="Assets\Scripts\FollowScript.cs" />
+     <Compile Include="Assets\Scripts\Kinnear\AStarWaypoint.cs" />
      <Compile Include="Assets\Scripts\Kinnear\DisplayEditorGUI.cs" />
      <Compile Include="Assets\Scripts\Kinnear\DrawLines.cs" />
      <Compile Include="Assets\Scripts\Kinnear\EditLevel.cs" />
      <Compile Include="Assets\Scripts\Kinnear\LoadLevels.cs" />
+     <Compile Include="Assets\Scripts\Kinnear\NodeContainer.cs" />
      <Compile Include="Assets\Scripts\Kinnear\NodeDetails.cs" />
      <Compile Include="Assets\Scripts\Kinnear\Prowler.cs" />
      <Compile Include="Assets\Scripts\Kinnear\ToggleOutline.cs" />

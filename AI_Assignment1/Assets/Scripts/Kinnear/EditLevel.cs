@@ -628,7 +628,7 @@ public class EditLevel : MonoBehaviour {
 					if(hit.collider.transform.gameObject.GetComponent<NodeDetails>() != null)
 					{
 							// if we hit a transformable gameobject and we've not selected a waypoint
-							if(!GetComponent<DisplayEditorGUI>().waypointApplication)
+							if(GetComponent<DisplayEditorGUI>().inputType == TypeOfInput.NORMAL_TILE)
 							{
 								if(userSelection == playerPrefabNumber  || userSelection == enemyPrefabNumber) // this we have specified a player/enemy spawn location we have to remove any other player/enemy start points
 								{
@@ -657,7 +657,7 @@ public class EditLevel : MonoBehaviour {
 							}
 						
 							// We check if the waypoint is valid and then we apply the waypoint indication number and then we set that node in the level to 0 which is clear block
-							else
+							else if(GetComponent<DisplayEditorGUI>().inputType == TypeOfInput.WAYPOINT)
 							{
 								// calculate if we can set a waypoint here!
 								hit.transform.gameObject.GetComponent<NodeDetails>().waypointID = CheckIfWaypointIsValid(hit.transform.gameObject.GetComponent<NodeDetails>().x, hit.transform.gameObject.GetComponent<NodeDetails>().y);

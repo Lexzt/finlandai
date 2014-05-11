@@ -1,18 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Kinnear/WaypointAIScript.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Kinnear/DisplayEditorGUI.cs">
     <Files>
-      <File FileName="Assets/Scripts/Kinnear/WaypointAIScript.cs" Line="82" Column="38" />
-      <File FileName="Assets/Scripts/LevelGenerator.cs" Line="39" Column="2" />
-      <File FileName="Assets/Scripts/Kinnear/EditLevel.cs" Line="552" Column="4" />
-      <File FileName="Assets/Scripts/Kinnear/NodeDetails.cs" Line="35" Column="4" />
-      <File FileName="Assets/Resources/LEVEL_1PatrolWaypoints.txt" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Kinnear/EditLevel.cs" Line="660" Column="41" />
+      <File FileName="Assets/Scripts/Kinnear/DisplayEditorGUI.cs" Line="157" Column="42" />
     </Files>
-    <Pads>
-      <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
