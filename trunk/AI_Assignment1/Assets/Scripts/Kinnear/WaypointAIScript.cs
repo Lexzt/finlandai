@@ -20,7 +20,7 @@ public class WaypointAIScript : MonoBehaviour {
 
 	bool movingForward = true;
 
-	float speed = 15.0f;
+	public float speed = 3.0f;
 
 	// Use this for initialization
 	void Start () 
@@ -50,7 +50,7 @@ public class WaypointAIScript : MonoBehaviour {
 					{
 						Vector3 temp = new Vector3((j * 1.0f) + 0.5f, 0.5f, (i * 1.0f) + 0.5f);
 
-						Debug.Log("Added waypoints");
+						//Debug.Log("Added waypoints");
 
 						waypointReference.Add (temp);
 						currentWaypointFigure++;
@@ -59,7 +59,7 @@ public class WaypointAIScript : MonoBehaviour {
 				}
 			}
 
-			Debug.Log("Times it went through");
+		//	Debug.Log("Times it went through");
 			
 
 		}while(currentWaypointFigure >= previousWaypointFigure);

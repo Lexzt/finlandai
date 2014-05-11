@@ -37,7 +37,7 @@ public class AStarWaypoint : MonoBehaviour {
 	GameObject levelReference;
 
 	// Movement Speed value of the 
-	float speed = 5.0f;
+	public float speed = 3.0f;
 
 	private float nextActionTime = 0.0f;
 	private float timeToCalculateNextPrediction = 1.0f;
@@ -196,8 +196,8 @@ public class AStarWaypoint : MonoBehaviour {
 
 		do{
 
-			randomY = randomPosition.Next(0, mapReference.Count);
-			randomX = randomPosition.Next(0, mapReference[0].Count);
+			randomY = randomPosition.Next(0, mapReference.Count - 1);
+			randomX = randomPosition.Next(0, mapReference[0].Count - 1);
 
 			if(mapReference[randomY][randomX].walkable == AbleToWalkOn.WALKABLE)
 			{
