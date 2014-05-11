@@ -24,6 +24,7 @@ public class LevelGenerator : MonoBehaviour {
     public Object[] PrefabArray;            // Array of walls
     public float f_SizeDiff = 1;              // Size of each tile in 3D.
 	public GameObject Player;
+	public GameObject[] AIArray;
 
 	// .txt file to load you level from
 	public string levelName = "Assets/Resources/LEVEL_1.txt";
@@ -37,10 +38,8 @@ public class LevelGenerator : MonoBehaviour {
 
 	// Stores all the map data in numbers
 	public List<List<int>> mapData = new List<List<int>>();
+	
 
-
-	// to obtain player's information if any AI's need it
-	public GameObject playerPointer;
 
 
     // Reading from text file, through " " delim.
@@ -98,20 +97,31 @@ public class LevelGenerator : MonoBehaviour {
 
 
 		//GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
-		DisableMeshRenderer();
+		DisableMeshRenderer("PlayerSpawn");
+		DisableMeshRenderer("EnemySpawn");
 
 		// Create the player at the Spawn Point
-		playerPointer = Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity) as GameObject;
+		SpawnPrefab(ref Player, "PlayerSpawn");
+
+		//Instantiate various AI
+		//Put this shit in LevelManager
+		for(int i = 0; i < AIArray.Length; i++)
+		{
+			SpawnPrefab(ref AIArray[i], "EnemySpawn");
+		}
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
-	void DisableMeshRenderer()
+	void DisableMeshRenderer(string tag)
 	{
-		//GameObject.FindGameObjectWithTag("PlayerSpawn").GetComponent<MeshRenderer>().enabled = false;
-		//GameObject.FindGameObjectWithTag("EnemySpawn").GetComponent<MeshRenderer>().enabled = false;
+		GameObject.FindGameObjectWithTag(tag).GetComponent<MeshRenderer>().enabled = false;
+	}
+
+	void SpawnPrefab(ref GameObject obj, string tag)
+	{
+		obj = Instantiate((Object)obj, GameObject.FindGameObjectWithTag(tag).transform.position, Quaternion.identity) as GameObject;
 	}
 }
