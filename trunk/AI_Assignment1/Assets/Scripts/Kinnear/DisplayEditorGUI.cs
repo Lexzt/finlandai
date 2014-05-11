@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum TypeOfInput
+{
+	NORMAL_TILE = 0,
+	WAYPOINT,
+};
+
 public class DisplayEditorGUI : MonoBehaviour {
 
 	public Vector2 tilesScrollPosition = Vector2.zero;
@@ -23,11 +29,15 @@ public class DisplayEditorGUI : MonoBehaviour {
 	public string newTerrainWidth = "";
 
 	// Decides if we're building using a waypoint or a standard tile selection
-	public bool waypointApplication = false;
+	//public bool waypointApplication = false;
+
+	//public bool advancedWaypointApplication = false;
 
 	public Object[] PrefabArray;
 
 	public int numberOfPrefabs = 0;
+
+	public TypeOfInput inputType = TypeOfInput.NORMAL_TILE;
 
 
 	// Button variables
@@ -43,7 +53,8 @@ public class DisplayEditorGUI : MonoBehaviour {
 		{
 			if(GUI.Button(new Rect(0, (buttonHeight * i) + (buttonHeightSpacing * i), buttonWidth, buttonHeight), PrefabArray[i].name))
 			{
-				waypointApplication = false;
+				//waypointApplication = false;
+				inputType = TypeOfInput.NORMAL_TILE;
 				GetComponent<EditLevel>().userSelection = i;
 			}
 		}
@@ -157,7 +168,7 @@ public class DisplayEditorGUI : MonoBehaviour {
 		if (GUI.Button (new Rect (100, Screen.height - (buttonHeight * 5), buttonWidth, buttonHeight), "Add Waypoint"))
 		{
 			// Switch from non waypoint to waypoint highlight
-			waypointApplication = true;
+			inputType = TypeOfInput.WAYPOINT;
 		}
 
 		// If the user clicked Load Levels we show don't show depending
@@ -171,7 +182,7 @@ public class DisplayEditorGUI : MonoBehaviour {
 			windowRect = GUI.Window (0, windowRect, DisplayCreateNewLevel, "");
 		}
 
-		Debug.Log ("Waypointapplication: " + waypointApplication);
+		//Debug.Log ("Waypointapplication: " + waypointApplication);
 
 	}
 }

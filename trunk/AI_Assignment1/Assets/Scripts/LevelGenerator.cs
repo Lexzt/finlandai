@@ -37,8 +37,10 @@ public class LevelGenerator : MonoBehaviour {
 
 	// Stores all the map data in numbers
 	public List<List<int>> mapData = new List<List<int>>();
-	
 
+
+	// to obtain player's information if any AI's need it
+	public GameObject playerPointer;
 
 
     // Reading from text file, through " " delim.
@@ -99,7 +101,7 @@ public class LevelGenerator : MonoBehaviour {
 		DisableMeshRenderer();
 
 		// Create the player at the Spawn Point
-		Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity);
+		playerPointer = Instantiate(Player, GameObject.FindGameObjectWithTag("PlayerSpawn").transform.position, Quaternion.identity) as GameObject;
     }
 	
 	// Update is called once per frame
@@ -109,7 +111,7 @@ public class LevelGenerator : MonoBehaviour {
 
 	void DisableMeshRenderer()
 	{
-		GameObject.FindGameObjectWithTag("PlayerSpawn").GetComponent<MeshRenderer>().enabled = false;
-		GameObject.FindGameObjectWithTag("EnemySpawn").GetComponent<MeshRenderer>().enabled = false;
+		//GameObject.FindGameObjectWithTag("PlayerSpawn").GetComponent<MeshRenderer>().enabled = false;
+		//GameObject.FindGameObjectWithTag("EnemySpawn").GetComponent<MeshRenderer>().enabled = false;
 	}
 }
