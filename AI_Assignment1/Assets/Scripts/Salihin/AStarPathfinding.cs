@@ -19,10 +19,6 @@ public class AStarPathfinding : MonoBehaviour {
 
 	int DestCount = 0;
 
-	void Start()
-	{
-	}
-
 	// Initialise
 	public AStarPathfinding(GameObject shadow, GameObject player, GameObject lvl)
 	{
@@ -138,112 +134,24 @@ public class AStarPathfinding : MonoBehaviour {
 
 		DestCount = (int)CloseList[CloseList.Count - 1].G;
 		//CurrTile = DestTile;
-
+		PathList.Add (DestTile);
+		
 		do
 		{
 			AddAdjacentNodesToPathList(DestTile);
 			DestTile = PathList[PathList.Count - 1];
 		}while(DestCount > 0);
+		//TileScript PlayerPos = new TileScript(LvlMapData[(int)DestPos.z][(int)DestPos.x], (int)DestPos.z, (int)DestPos.x);
+
 
 		if(DestCount == 0)
 		{
 //			Debug.Log("Reverse path found");
-//			for(int i = PathList.Count - 1; i > -1; i--)
-//			{
-//				Debug.Log("Path List variables: Row: " + PathList[i].row + " Column: " + PathList[i].column + " F: " + PathList[i].F + " G: " + PathList[i].G + " H: "  + PathList[i].H);
-//			}
+			for(int i = PathList.Count - 1; i > -1; i--)
+			{
+				//Debug.Log("Path List variables: Row: " + PathList[i].row + " Column: " + PathList[i].column + " F: " + PathList[i].F + " G: " + PathList[i].G + " H: "  + PathList[i].H);
+			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-//		do
-//		{
-////			Debug.Log("CurrPos: " + CurrPos);
-//			AddToCloseList();
-//
-//			if((int)CurrPos.x == (int)DestTile.Position.x && (int)CurrPos.z == (int)DestTile.Position.z)
-//			{
-//				//path found
-////				Debug.Log("PATH FOUND");
-//				break;
-//			}
-//
-//			AddToAdjacentTile(CurrPos, CurrTile.row, CurrTile.column);
-////			Debug.Log("Iteration CurrPos: " + CurrPos);
-//
-//			bool closed = false;
-//			for(int i = 0; i < AdjacentTile.Count; i++)
-//			{
-//				for(int j = 0; j < CloseList.Count; j++)
-//				{
-//					//if adjacent tile is in close list, continue
-//					if(AdjacentTile[i].row == CloseList[j].row && AdjacentTile[i].column == CloseList[j].column)
-//					{
-//						closed = true;
-//						break;
-//					}
-//				}
-//
-//				if(!closed)
-//				{
-////					Debug.Log("AdjacentTile index: " + i);
-//
-//					OpenList.Add(AdjacentTile[i]);
-////					Debug.Log("Added AdjacentTile into OpenList");
-//					OpenList[OpenList.Count - 1].CalcF(StartPos, DestPos, CurrPos);
-//				}
-//				closed = false;
-//			}
-//			AdjacentTile.Clear();
-////			Debug.Log("Iteration OpenList Count: " + OpenList.Count);
-//		}while(OpenList.Count > 0);
-//		Debug.Log("EXIT ITERATION");
-
-		//int DestCount = (int)CloseList[CloseList.Count - 1].G;
-
-
-//		do
-//		{
-//			AddToAdjacentTile(DestPos);
-//
-//			for(int i = 0; i < AdjacentTile.Count; i++)
-//			{
-//				for(int j = 0; j < CloseList.Count; j++)
-//				{
-//					Debug.Log("CloseList Pos0: " + CloseList[j].Position + ", F: " + CloseList[j].F + ", G: " + CloseList[j].G + ", H: " + CloseList[j].H);
-//					//if adjacent tile is in close list, continue
-//
-//					if(AdjacentTile[i].row == CloseList[j].row && AdjacentTile[i].column == CloseList[j].column)
-//					{
-//						AdjacentTile[i] = CloseList[j];
-//
-////						if(DestCount - 1 == (int)AdjacentTile[i].G)
-////						{
-////							Debug.Log("DestPos: " + DestPos);
-////							Debug.Log("AdjacentTile: " + AdjacentTile[i].row + ", " + AdjacentTile[i].column);
-////							Debug.Log("AdjacentTile F: " + AdjacentTile[i].F + ", G: " + AdjacentTile[i].G + ", H: " + AdjacentTile[i].H);
-////							Debug.Log("CloseList Pos: " + CloseList[j].Position + ", F: " + CloseList[j].F + ", G: " + CloseList[j].G + ", H: " + CloseList[j].H);
-//							PathList.Add(CloseList[j]);
-//							Debug.Log("CloseList Pos1: " + CloseList[j].Position + ", F: " + CloseList[j].F + ", G: " + CloseList[j].G + ", H: " + CloseList[j].H);
-////							Debug.Log("PathList Pos: " + PathList[PathList.Count - 1].Position);
-//							DestPos = PathList[PathList.Count - 1].Position;
-//							DestCount--;
-////							Debug.Log("DestCount: " + DestCount);
-//						//}
-//					}
-//				}
-//			}
-//			AdjacentTile.Clear();
-//		}while(DestCount > 0);
-////		Debug.Log("REVERSE PATH FOUND");
 	}
 
 	void FindTileWithLowestF(ref TileScript currentTile)

@@ -47,13 +47,15 @@ public class ShadowScript : MonoBehaviour {
 
 					TargetId--;
 					Target = new Vector3(AStar.PathList[TargetId].column + 0.5f, transform.position.y, AStar.PathList[TargetId].row + 0.5f);
+					
 				}
+
 			}
 			else
 			{
-				Target = transform.position;
+				Target = Pacman.transform.position;
 			}
-			//Debug.Log(transform.position);
+
 			transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * Speed);
 		}
 	}
