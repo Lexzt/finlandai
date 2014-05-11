@@ -80,7 +80,7 @@ public class AStarWaypoint : MonoBehaviour {
 		//Spawn the enemy
 		ai = Instantiate (referenceAI, nextPositionVector, Quaternion.identity) as GameObject;
 
-		Debug.Log (GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position);
+//		Debug.Log (GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position);
 
 		// put the AI at the starting spawn
 		ai.transform.position = GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position;
@@ -113,7 +113,7 @@ public class AStarWaypoint : MonoBehaviour {
 			mapReference.Add(temp);
 		}
 
-		player = GameObject.Find ("LevelGenerator").GetComponent<LevelGenerator>().playerPointer;
+///		player = GameObject.Find ("LevelGenerator").GetComponent<LevelGenerator>().playerPointer;
 
 
 		CalculatePath();
@@ -175,8 +175,8 @@ public class AStarWaypoint : MonoBehaviour {
 
 
 		// Find the player's position on the grid
-		playerPositionX = (int)player.transform.position.x;
-		playerPositionY = (int)player.transform.position.z;
+//		playerPositionX = (int)player.transform.position.x;
+//		playerPositionY = (int)player.transform.position.z;
 
 		finalPositionX = playerPositionX;
 		finalPositionY = playerPositionY;
@@ -253,7 +253,7 @@ public class AStarWaypoint : MonoBehaviour {
 			// we've found the final destination!
 			if(currentPositionX == finalPositionX && currentPositionY == finalPositionY)
 			{
-				Debug.Log("We have found the path!");
+//				Debug.Log("We have found the path!");
 				break;
 			}
 			// get square with lowest F score
@@ -281,13 +281,13 @@ public class AStarWaypoint : MonoBehaviour {
 
 			if(noPath)
 			{
-				Debug.Log("We conclude that there is no path");
+//				Debug.Log("We conclude that there is no path");
 			}
 
 
 		} while(!noPath);
 
-		Debug.Log ("AI Pos: " + aiPositionX + ", " + aiPositionY);
+//		Debug.Log ("AI Pos: " + aiPositionX + ", " + aiPositionY);
 
 		// Store the path to walk to inside a list of vectors.
 		int destinationGCost = mapReference [finalPositionY] [finalPositionX].G;
@@ -345,7 +345,7 @@ public class AStarWaypoint : MonoBehaviour {
 					direction = Direction.RIGHT;
 				}
 			}
-			Debug.Log("Destination Cost: " + destinationGCost);
+//			Debug.Log("Destination Cost: " + destinationGCost);
 
 			if(direction == Direction.BOTTOM)
 			{
@@ -368,7 +368,7 @@ public class AStarWaypoint : MonoBehaviour {
 
 		for(int i = 0; i < finishedPath.Count; i++)
 		{
-			Debug.Log("Position " + i + ": " + finishedPath[i]);
+//			Debug.Log("Position " + i + ": " + finishedPath[i]);
 		}
 		
 		nextElement = finishedPath.Count - 1;

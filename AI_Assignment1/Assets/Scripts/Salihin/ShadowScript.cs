@@ -7,87 +7,58 @@ public class ShadowScript : MonoBehaviour {
 	public int Speed;
 	private Vector3 Direction;
 
-	public GameObject Pacman;
-	public GameObject Ground;
+	private GameObject Pacman;
 
 	public int Trigger_Dist;
 
-	private List<Vector3> TargetPoints = new List<Vector3>();
+	AStarPathfinding AStar;
+
+	private GameObject LvlGen;
+
+	float delay = 2.0f;
+	float ticks = 0.0f;
+	Vector3 Target;
+	int TargetId = 0;
 
 	// Use this for initialization
 	void Start () {
-		Direction = Vector3.zero;
+		LvlGen = GameObject.Find("LevelGenerator");
+		Pacman = LvlGen.GetComponent<LevelGenerator>().Player;
 
-		for(int i = 0; i < 2; i++)
-		{
-			TargetPoints.Add(Vector3.zero);
-		}
+		// This is to intialise the shadow AI and player
+		AStar = new AStarPathfinding(transform.gameObject, Pacman, LvlGen);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		var TPos = transform.position;
-		var PTPos = Pacman.transform.position;
-		//var GTPos = Ground.transform.position;
-
-//		if(TPos.y <= GTPos.y + transform.localScale.y * 0.5)
-//		{
-//			rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-//		}
-
-		if(CalcDistance(PTPos) <= Trigger_Dist)
+		if(CalcDistance(Pacman.transform.position) <= Trigger_Dist)
 		{
-			SetTargetPoints(Pacman.transform.position);
+			AStar.Init(transform.gameObject, Pacman);
+			AStar.InitAStar();
+			AStar.Iteration();
 
-//			if(transform.position.x <= TargetPoints[0].x + 1 || transform.position.x >= TargetPoints[0].x - 1)
-//			{
-//				SetDirection(TargetPoints[1]);
-//				SetTargetPoints(Pacman.transform.position);
-//			}
-//
-//			if(transform.position.z <= TargetPoints[1].z + 1 || transform.position.x >= TargetPoints[1].z - 1)
-//			{
-//				SetDirection(TargetPoints[0]);
-//				SetTargetPoints(Pacman.transform.position);
-//			}
-
-			if(CalcDistance(TargetPoints[0]) <= 1)
+			TargetId = AStar.PathList.Count - 1;
+		
+			if(TargetId > 0)
 			{
-				SetDirection(TargetPoints[1]);
-			}
+				if(transform.position == new Vector3(AStar.PathList[TargetId].column + 0.5f, transform.position.y, AStar.PathList[TargetId].row + 0.5f))
+				{
 
-			if(CalcDistance(TargetPoints[1]) <= 1)
+					TargetId--;
+					Target = new Vector3(AStar.PathList[TargetId].column + 0.5f, transform.position.y, AStar.PathList[TargetId].row + 0.5f);
+				}
+			}
+			else
 			{
-				SetDirection(TargetPoints[0]);
+				Target = transform.position;
 			}
-
-//			Direction = PTPos - TPos;
-//			Direction.Normalize();
-			Debug.Log(Direction);
-			
-			transform.position += Direction * Speed * Time.deltaTime;
+			//Debug.Log(transform.position);
+			transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * Speed);
 		}
 	}
 
-	void SetTargetPoints(Vector3 Position)
-	{
-		var TPos = transform.position;
-
-		Vector3 Target0 = new Vector3(Position.x, TPos.y, TPos.z);
-		TargetPoints[0] = Target0;
-
-		Vector3 Target1 = new Vector3(TPos.x, TPos.y, Position.z);
-		TargetPoints[1] = Target1;
-	}
-
-	void SetDirection(Vector3 Target)
-	{
-		Direction = Target - transform.position;
-		Direction.Normalize();
-	}
-
-	float CalcDistance(Vector3 Target)
+	private float CalcDistance(Vector3 Target)
 	{
 		return ((Target - transform.position).magnitude);
 	}
