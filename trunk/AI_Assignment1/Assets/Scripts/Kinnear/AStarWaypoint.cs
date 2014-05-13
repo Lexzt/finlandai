@@ -4,15 +4,6 @@ using System.Collections.Generic;
 
 public class AStarWaypoint : MonoBehaviour {
 
-	//1. Find a Prediction if the prediction we calculated was 2 seconds ago.
-	//2. Find the current point the AI is in
-	//3. Find the final destination that we wanna be at!
-	//4. Pathfind from one destination to the last
-	//5. Once path is found. Store our supposed movements in a list!
-	//6. Start walkin!
-	//7. Once it's 2 seconds past we recalculate
-	//8. REPEATAAAAAAAAAAAAA!
-
 	enum Direction{
 		TOP = 0,
 		BOTTOM,
@@ -20,10 +11,8 @@ public class AStarWaypoint : MonoBehaviour {
 		RIGHT
 	};
 
-	
-	// put in the AI prefab using this reference
-	public Object referenceAI;
-	
+	public Object referenceAI; // put in the AI prefab using this reference	
+
 	public GameObject ai;
 	public GameObject player; // pointer reference to the player
 	
@@ -33,11 +22,10 @@ public class AStarWaypoint : MonoBehaviour {
 	
 	List<List<NodeContainer>> mapReference = new List<List<NodeContainer>> ();
 	
-	// Our level reference back to the level's nodes!
-	GameObject levelReference;
 
-	// Movement Speed value of the 
-	public float speed = 3.0f;
+	GameObject levelReference; // Our level reference back to the level's nodes!
+
+	public float speed = 3.0f; // Movement Speed value of the 
 
 	private float nextActionTime = 0.0f;
 	private float timeToCalculateNextPrediction = 1.0f;
@@ -80,14 +68,10 @@ public class AStarWaypoint : MonoBehaviour {
 		//Spawn the enemy
 		ai = Instantiate (referenceAI, nextPositionVector, Quaternion.identity) as GameObject;
 
-//		Debug.Log (GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position);
-
-		// put the AI at the starting spawn
 		ai.transform.position = GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position;
 
 		levelReference = GameObject.Find ("LevelGenerator");
 
-		// assigning an array of numbers to tell where the AI is able to walk and unable to walk on
 		for(int i = 0; i < levelReference.GetComponent<LevelGenerator>().mapData.Count; i++)
 		{
 			List<NodeContainer> temp = new List<NodeContainer>();
@@ -98,12 +82,10 @@ public class AStarWaypoint : MonoBehaviour {
 
 				if(IsValidWalkableTile(levelReference.GetComponent<LevelGenerator>().mapData[i][j]))
 				{
-					// these are walkable tiles
 					miniTemp.walkable = AbleToWalkOn.WALKABLE;
 				}
 				else
 				{
-					// these are unwalkable tiles
 					miniTemp.walkable = AbleToWalkOn.UNWALKABLE;
 				}
 
@@ -112,9 +94,6 @@ public class AStarWaypoint : MonoBehaviour {
 
 			mapReference.Add(temp);
 		}
-
-///		player = GameObject.Find ("LevelGenerator").GetComponent<LevelGenerator>().playerPointer;
-
 
 		CalculatePath();
 	}
@@ -126,11 +105,9 @@ public class AStarWaypoint : MonoBehaviour {
 		if (Time.time > nextActionTime ) 
 		{
 			nextActionTime += timeToCalculateNextPrediction;
-			// execute block of code here
 			CalculatePath();
 		}
 
-		// move here
 		Move ();
 	}
 
@@ -143,17 +120,11 @@ public class AStarWaypoint : MonoBehaviour {
 		{
 			if(mapReference[currentPositionY + offsetY][currentPositionX + offsetX].walkable == AbleToWalkOn.WALKABLE
 			   && mapReference[currentPositionY + offsetY][currentPositionX + offsetX].nodeType != OpenClosedCheck.CLOSED)
-			 
 			{
 				mapReference[currentPositionY + offsetY][currentPositionX + offsetX].nodeType = OpenClosedCheck.OPEN;
-				
-				//G = Cost from the first node all the way till now so far!
 				mapReference[currentPositionY + offsetY][currentPositionX + offsetX].G = mapReference[currentPositionY][currentPositionX].G + 1;
-				//H = Heuristic. In this case manhattan
 				mapReference[currentPositionY + offsetY][currentPositionX + offsetX].H = System.Math.Abs((currentPositionX + offsetX) - finalPositionX) + System.Math.Abs((currentPositionY + offsetY) - finalPositionY);
-				// Total cost so far
 				mapReference[currentPositionY + offsetY][currentPositionX + offsetX].F = mapReference[currentPositionY + offsetY][currentPositionX + offsetX].G + mapReference[currentPositionY + offsetY][currentPositionX + offsetX].H;
-				//Debug.Log("Node: F: " + mapReference[currentPositionY + offsetY][currentPositionX + offsetX].F + " G: " + mapReference[currentPositionY + offsetY][currentPositionX + offsetX].G + " H: " + mapReference[currentPositionY + offsetY][currentPositionX + offsetX].H);
 			}
 		}
 	}
@@ -173,23 +144,12 @@ public class AStarWaypoint : MonoBehaviour {
 
 		finishedPath.Clear ();
 
-
-		// Find the player's position on the grid
-//		playerPositionX = (int)player.transform.position.x;
-//		playerPositionY = (int)player.transform.position.z;
-
 		finalPositionX = playerPositionX;
 		finalPositionY = playerPositionY;
 		
-
-		// Find the AI's position
-		// Don't really understand why its' flipped but its flipped... x and z is z and x
 		aiPositionX = (int)ai.transform.position.x;
 		aiPositionY = (int)ai.transform.position.z;
 
-		// Predict the movement of the player here?
-
-		// random position
 		System.Random randomPosition = new System.Random ();
 		int randomY = 0;
 		int randomX = 0;
@@ -228,8 +188,6 @@ public class AStarWaypoint : MonoBehaviour {
 		do{
 			int lowestF = 10000000;
 
-			//Debug.Log("We are now on: currentPositionY : " + currentPositionY + " currentPositionX : "  + currentPositionX);
-
 			// Get the square with the lowest F score!
 			for(int i = 0; i < mapReference.Count; i++)
 			{
@@ -242,7 +200,6 @@ public class AStarWaypoint : MonoBehaviour {
 							lowestF = mapReference[i][j].F;
 							currentPositionX = j;
 							currentPositionY = i;
-							//Debug.Log("Found a lower F value on a tile.");
 						}
 					}
 				}
@@ -253,7 +210,6 @@ public class AStarWaypoint : MonoBehaviour {
 			// we've found the final destination!
 			if(currentPositionX == finalPositionX && currentPositionY == finalPositionY)
 			{
-//				Debug.Log("We have found the path!");
 				break;
 			}
 			// get square with lowest F score
@@ -281,13 +237,11 @@ public class AStarWaypoint : MonoBehaviour {
 
 			if(noPath)
 			{
-//				Debug.Log("We conclude that there is no path");
+				// Debug.Log("We conclude that there is no path");
 			}
 
 
 		} while(!noPath);
-
-//		Debug.Log ("AI Pos: " + aiPositionX + ", " + aiPositionY);
 
 		// Store the path to walk to inside a list of vectors.
 		int destinationGCost = mapReference [finalPositionY] [finalPositionX].G;
@@ -300,12 +254,6 @@ public class AStarWaypoint : MonoBehaviour {
 		Direction direction = Direction.BOTTOM;
 
 		do{
-
-			// 1. Find the adjacent tile that has the G to be a lower cost current G - 1
-			// 2. Add the adjacent tile's G to the finishedPath list
-			// 3. Set the positionGX and positionGY to the new tile
-			// 4. REPEAT! until the cost is 0 which means we have reached back to the starting point
-
 			if(positionGY + 1 < mapReference.Count)
 			{
 				if(mapReference[positionGY + 1][positionGX].G == destinationGCost - 1
@@ -345,7 +293,6 @@ public class AStarWaypoint : MonoBehaviour {
 					direction = Direction.RIGHT;
 				}
 			}
-//			Debug.Log("Destination Cost: " + destinationGCost);
 
 			if(direction == Direction.BOTTOM)
 			{
@@ -364,12 +311,6 @@ public class AStarWaypoint : MonoBehaviour {
 			destinationGCost --;
 
 		} while(destinationGCost > 0);
-
-
-		for(int i = 0; i < finishedPath.Count; i++)
-		{
-//			Debug.Log("Position " + i + ": " + finishedPath[i]);
-		}
 		
 		nextElement = finishedPath.Count - 1;
 	}
