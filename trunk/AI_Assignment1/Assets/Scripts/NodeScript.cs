@@ -10,7 +10,33 @@ public class NodeScript : MonoBehaviour {
     void Start()
     {
         Vector3 CurrentPos = transform.position;
-        foreach (GameObject v in GameObject.FindGameObjectsWithTag("Bits"))
+		GameObject[] ObjectArray 	= GameObject.FindGameObjectsWithTag ("Bits");
+		GameObject[] BigBitsArray 	= GameObject.FindGameObjectsWithTag ("BigBits");
+		GameObject[] EmptyArray 	= GameObject.FindGameObjectsWithTag ("Empty");
+		GameObject EnemySpawn 		= GameObject.FindGameObjectWithTag 	("EnemySpawn");
+		GameObject PlayerSpawn 		= GameObject.FindGameObjectWithTag 	("PlayerSpawn");
+		List<GameObject> FinalArray = new List<GameObject>();
+		
+		foreach (GameObject v in ObjectArray) 
+		{
+			FinalArray.Add(v);
+		}
+
+		foreach (GameObject v in BigBitsArray) 
+		{
+			FinalArray.Add(v);
+		}
+
+		foreach (GameObject v in EmptyArray) 
+		{
+			FinalArray.Add(v);
+		}
+
+		FinalArray.Add(EnemySpawn);
+		FinalArray.Add(PlayerSpawn);
+		
+
+		foreach (GameObject v in FinalArray)
         {
             // Check Left
             if (v.transform.position.x == CurrentPos.x + 1 &&

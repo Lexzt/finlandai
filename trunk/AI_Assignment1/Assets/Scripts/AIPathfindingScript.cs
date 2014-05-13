@@ -20,12 +20,40 @@ public class AIPathfindingScript : MonoBehaviour {
     //private Transform playerTrans;
     private bool m_bReCalc = false;
     private Transform currentEndTrans;
-	
+
+	private List<GameObject> ListArray;
+	private GameObject[] FinalArray;
     void Start () 
     {
         GameObject Newplayer = GameObject.FindGameObjectWithTag("Player");
         currentTarget = new GameObject();
         currentTarget.transform.position = new Vector3(Newplayer.transform.position.x, Newplayer.transform.position.y, Newplayer.transform.position.z);
+
+		GameObject[] ObjectArray 	= GameObject.FindGameObjectsWithTag ("Bits");
+		GameObject[] BigBitsArray 	= GameObject.FindGameObjectsWithTag ("BigBits");
+		GameObject[] EmptyArray 	= GameObject.FindGameObjectsWithTag ("Empty");
+		GameObject EnemySpawn 		= GameObject.FindGameObjectWithTag 	("EnemySpawn");
+		GameObject PlayerSpawn	 	= GameObject.FindGameObjectWithTag 	("PlayerSpawn");
+		ListArray = new List<GameObject>();
+		
+		foreach (GameObject v in ObjectArray) 
+		{
+			ListArray.Add(v);
+		}
+
+		foreach (GameObject v in BigBitsArray) 
+		{
+			ListArray.Add(v);
+		}
+		
+		foreach (GameObject v in EmptyArray) 
+		{
+			ListArray.Add(v);
+		}		
+		ListArray.Add(EnemySpawn);
+		ListArray.Add(PlayerSpawn);
+
+		FinalArray = ListArray.ToArray ();
     }
 
 	// Update is called once per frame
@@ -46,9 +74,9 @@ public class AIPathfindingScript : MonoBehaviour {
         if(s_Path == null)
         {
 			s_Path = DijkstraAlgorithm.Dijkstra(
-					 GameObject.FindGameObjectsWithTag("Bits"),
-					 gameObject.GetComponent<CurrentNodeScript>().currentNode,
-					 player.GetComponent<CurrentNodeScript>().currentNode);
+						FinalArray,
+					 	gameObject.GetComponent<CurrentNodeScript>().currentNode,
+					 	player.GetComponent<CurrentNodeScript>().currentNode);
 		}
         else if (m_bReCalc == true)
         {
@@ -59,16 +87,16 @@ public class AIPathfindingScript : MonoBehaviour {
 
             s_Path.Clear();
             s_Path = DijkstraAlgorithm.Dijkstra(
-                     GameObject.FindGameObjectsWithTag("Bits"),
-                     gameObject.GetComponent<CurrentNodeScript>().currentNode,
-                     player.GetComponent<CurrentNodeScript>().currentNode);
+						FinalArray,
+                     	gameObject.GetComponent<CurrentNodeScript>().currentNode,
+                    	player.GetComponent<CurrentNodeScript>().currentNode);
         }
         
 		if (gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position != player.GetComponent<CurrentNodeScript>().currentNode.transform.position)
 		{
 			if (s_Path != null)
 	        {
-	            if (currentEnd == null || transform.position == currentEnd.transform.position)
+				if ((currentEnd == null || transform.position == currentEnd.transform.position) && s_Path.Count != 0)
 	            {
 	                //Debug.Log("Pop Stack");
 	                currentEnd = s_Path.Pop();
@@ -81,7 +109,7 @@ public class AIPathfindingScript : MonoBehaviour {
 	                float distCovered = (Time.time - startTime) * m_fSpeed;
 	                float fracJourney = distCovered / journeyLength;
 
-	                transform.position = Vector3.Lerp(transform.position, currentEnd.transform.position, fracJourney);
+	                transform.position = Vector3.MoveTowards(transform.position, currentEnd.transform.position, fracJourney);
 	            }
 	        }
 		}
