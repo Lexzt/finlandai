@@ -5,7 +5,7 @@ public class PlayerHUD : MonoBehaviour {
 	
 	Rect PlayerScore;										//introduce variable to store a Rect
 	string ScoreDisplay;									//introduce variable to store string displaying score on GUI
-	[HideInInspector] public int PlayerPoint;									//introduce variable to store Player's points
+	[HideInInspector] public int PlayerPoint;				//introduce variable to store Player's points
 
 	Rect PlayerLives;										//introduce variable to store a Rect
 	string LivesDisplay;									//introduce variable to store string displaying lives on GUI
