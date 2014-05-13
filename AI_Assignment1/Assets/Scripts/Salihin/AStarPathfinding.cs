@@ -3,50 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AStarPathfinding : MonoBehaviour {
+	
+	public List<TileScript> OpenList = new List<TileScript>();							//list to add adjacent tiles depending on position
+	public List<TileScript> CloseList = new List<TileScript>();							//list to add tile from OpenList depending on smallest F value
+	public List<TileScript> PathList = new List<TileScript>();							//list for AI to traverse through for the path ti follow
+	
+	private Vector3 StartPos, DestPos, CurrPos;											//store positions necessary in processing A* Pathfinding
+	private GameObject LvlGen;															//access data from LevelGenerator to assist in A* Pathfinding
 
-	public List<TileScript> OpenList = new List<TileScript>();
-	public List<TileScript> CloseList = new List<TileScript>();
-	public List<TileScript> PathList = new List<TileScript>();
-
-	private Vector3 StartPos, DestPos, CurrPos;
-	private GameObject LvlGen;
-
+	//3 important tiles to assist in A* Pathfinding
 	private TileScript StartTile;
 	private TileScript DestTile;
 	private TileScript CurrTile;
 
-	private List<TileScript> AdjacentTile = new List<TileScript>();
+	//component used for finding the reserve path
+	private int DestCount = 0;
 
-	int DestCount = 0;
-
-	// Initialise
+	//get data from AI and Player and manipulates them for use in A* Pathfinding
 	public AStarPathfinding(GameObject shadow, GameObject player, GameObject lvl)
 	{
-		StartPos = shadow.transform.position; // ai position
-		//Debug.Log("StartPos: " + StartPos);
-		DestPos = player.transform.position; // Final position
-		//Debug.Log("DestPos: " + DestPos);
-		CurrPos = shadow.transform.position; // ai position for starting our A*
-		//Debug.Log("CurrPos: " + CurrPos);
+		StartPos = shadow.transform.position; 					//AI position
+		DestPos = player.transform.position; 					//Final position
+		CurrPos = shadow.transform.position; 					//AI position for starting our A*
 		LvlGen = lvl;
 
 		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
 
-		// convert positions into tiles
+		//convert positions into tiles
 		StartTile = new TileScript(LvlMapData[(int)StartPos.z][(int)StartPos.x], (int)StartPos.z, (int)StartPos.x);
 		DestTile = new TileScript(LvlMapData[(int)DestPos.z][(int)DestPos.x], (int)DestPos.z, (int)DestPos.x);
 		CurrTile = new TileScript(LvlMapData[(int)CurrPos.z][(int)CurrPos.x], (int)CurrPos.z, (int)CurrPos.x);
 	}
 
-	// This function takes in the shadow and pacman
+	//function takes in the shadow and pacman
 	public void Init(GameObject shadow, GameObject player)
 	{
 		StartPos = shadow.transform.position;
-//		Debug.Log("Init StartPos: " + StartPos);
 		DestPos = player.transform.position;
-//		Debug.Log("Init DestPos: " + DestPos);
 		CurrPos = StartPos;
-//		Debug.Log("Init CurrPos: " + CurrPos);
 
 		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
 		
@@ -57,9 +51,9 @@ public class AStarPathfinding : MonoBehaviour {
 		// just in case
 		OpenList.Clear();
 		CloseList.Clear();
-		AdjacentTile.Clear();
 	}
 
+	//function to add current tile AI is in to the OpenList
 	public void InitAStar()
 	{
 		// to wait for levelgenerator to initialise first
@@ -67,27 +61,14 @@ public class AStarPathfinding : MonoBehaviour {
 		{
 			var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
 
-			//OpenList.Add (new TileScript(LvlMapData[(int)StartPos.z][(int)StartPos.x], (int)StartPos.z, (int)StartPos.x));
-
 			// 1. We add in our first tile to the open list
 			OpenList.Add(new TileScript(StartTile.id, StartTile.row, StartTile.column));
-//			Debug.Log("InitAStar StartPos: " + StartPos);
-//			Debug.Log("Add to OpenList");
-//			Debug.Log("InitAStar OpenList Count: " + OpenList.Count);
-			//OpenList[OpenList.Count - 1].CalcF(StartPos, DestPos, CurrPos);
-			//CloseList.Add(new TileScript(LvlMapData[(int)StartPos.z][(int)StartPos.x], (int)StartPos.z, (int)StartPos.x));
-
-			//Debug.Log("Shadow Spawn: " + LvlMapData[(int)CurrPos.z][(int)CurrPos.x]);
-			//Debug.Log("Shadow Spawn: " + LvlMapData.Count);
-			
-			//AddToOpenList();
-			//CalcFInOpenList(StartPos, DestPos);
 		}
 	}
 
+	//function to perform the iteration to add tiles into OpenList and CloseList and to plot path from AI to Pacman
 	public void Iteration()
 	{
-
 		do
 		{
 			//2 . get the tile with the lowest F value
@@ -116,45 +97,27 @@ public class AStarPathfinding : MonoBehaviour {
 			//4. check if we have reached the path
 			if(CurrTile.row == DestTile.row && CurrTile.column == DestTile.column)
 			{
-//				Debug.Log("path is Found~!");
 				break;	
 			}
 			
 			//5. Add adjacent nodes to open list
 			AddAdjacentNodesToOpenList(CurrTile);
-
-	//		Debug.Log("openList count just before loop ends: " + OpenList.Count);
-
 		} while(OpenList.Count > 0 );
 
-//		for(int i = 0; i < CloseList.Count; i++)
-//		{
-//			Debug.Log("Closed List variables: Row: " + CloseList[i].row + " Column: " + CloseList[i].column + " F: " + CloseList[i].F + " G: " + CloseList[i].G + " H: "  + CloseList[i].H);
-//		}
-
+		//start to plot the reverse path
 		DestCount = (int)CloseList[CloseList.Count - 1].G;
-		//CurrTile = DestTile;
 		PathList.Add (DestTile);
-		
+
+		//iteration to plot reverse path
 		do
 		{
 			AddAdjacentNodesToPathList(DestTile);
 			DestTile = PathList[PathList.Count - 1];
 		}while(DestCount > 0);
-		//TileScript PlayerPos = new TileScript(LvlMapData[(int)DestPos.z][(int)DestPos.x], (int)DestPos.z, (int)DestPos.x);
-
-
-		if(DestCount == 0)
-		{
-//			Debug.Log("Reverse path found");
-			for(int i = PathList.Count - 1; i > -1; i--)
-			{
-				//Debug.Log("Path List variables: Row: " + PathList[i].row + " Column: " + PathList[i].column + " F: " + PathList[i].F + " G: " + PathList[i].G + " H: "  + PathList[i].H);
-			}
-		}
 	}
 
-	void FindTileWithLowestF(ref TileScript currentTile)
+	//function to find the lowest F value of the tiles in the OpenList
+	private void FindTileWithLowestF(ref TileScript currentTile)
 	{
 		float lowestF = 10000000.0f;
 
@@ -164,20 +127,19 @@ public class AStarPathfinding : MonoBehaviour {
 			{
 				lowestF = OpenList[i].F;
 				currentTile = OpenList[i];
-//				currentTile.row = OpenList[i].row;
-//				currentTile.column = OpenList[i].column;
-//				Debug.Log("Obtained the tile with the lowest F!");
 			}
 		}
 	}
 
-	void AddAdjacentNodesToOpenList(TileScript CurrTile)
+	//function to add adjacent tiles to the current position into the OpenList for the path from AI to Pacman
+	private void AddAdjacentNodesToOpenList(TileScript CurrTile)
 	{
 		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
 
 		int curr_z = CurrTile.row;
 		int curr_x = CurrTile.column;
 
+		//check adjacent tiles and ensure they are not an Environment Tile
 		//Check Left
 		if(ValidateTile(curr_z, curr_x - 1, 1) && ValidateTile(curr_z, curr_x - 1, 2) && ValidateTile(curr_z, curr_x - 1, 3))
 		{
@@ -203,9 +165,6 @@ public class AStarPathfinding : MonoBehaviour {
 				OpenList.Add(adjacentTile);
 			}
 			inopen = false;
-			//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-			//			Debug.Log("Added Left Adjacent");
-			//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
 		}
 		
 		//Check Right
@@ -232,10 +191,6 @@ public class AStarPathfinding : MonoBehaviour {
 				OpenList.Add(adjacentTile);
 			}
 			inopen = false;
-			//AdjacentTile.Add(new TileScript(LvlMapData[curr_z][curr_x + 1], curr_z, curr_x + 1));
-			//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-			//			Debug.Log("Added Right Adjacent");
-			//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
 		}
 		
 		//Check Up
@@ -262,10 +217,6 @@ public class AStarPathfinding : MonoBehaviour {
 				OpenList.Add(adjacentTile);
 			}
 			inopen = false;
-			//AdjacentTile.Add(new TileScript(LvlMapData[curr_z - 1][curr_x], curr_z - 1, curr_x));
-			//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-			//			Debug.Log("Added Up Adjacent");
-			//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
 		}
 		
 		//Check Down
@@ -292,22 +243,18 @@ public class AStarPathfinding : MonoBehaviour {
 				OpenList.Add(adjacentTile);
 			}
 			inopen = false;
-			//AdjacentTile.Add(new TileScript(LvlMapData[curr_z + 1][curr_x], curr_z + 1, curr_x));
-			//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-			//			Debug.Log("Added Down Adjacent");
-			//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
 		}
-
-//		Debug.Log("openList count inside adjacent tiles: " + OpenList.Count);
 	}
 
-	void AddAdjacentNodesToPathList(TileScript CurrTile)
+	//function to add adjacent tiles to the current position into the OpenList for the path from Pacman to AI
+	private void AddAdjacentNodesToPathList(TileScript CurrTile)
 	{
 		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
 		
 		int curr_z = CurrTile.row;
 		int curr_x = CurrTile.column;
-		
+
+		//check adjacent tiles and ensure they are not an Environment Tile
 		//Check Left
 		if(ValidateTile(curr_z, curr_x - 1, 1) && ValidateTile(curr_z, curr_x - 1, 2) && ValidateTile(curr_z, curr_x - 1, 3))
 		{
@@ -376,56 +323,9 @@ public class AStarPathfinding : MonoBehaviour {
 				}
 			}
 		}
-		
-		//		Debug.Log("openList count inside adjacent tiles: " + OpenList.Count);
 	}
 
-	private void AddToAdjacentTile(Vector3 CurrPos, int z, int x)
-	{		
-		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
-//		int curr_z = (int)CurrPos.z;
-//		int curr_x = (int)CurrPos.x;
-
-		int curr_z = z;
-		int curr_x = x;
-
-		//Check Left
-		if(ValidateTile(curr_z, curr_x - 1, 1) && ValidateTile(curr_z, curr_x - 1, 2) && ValidateTile(curr_z, curr_x - 1, 3))
-		{
-			AdjacentTile.Add(new TileScript(LvlMapData[curr_z][curr_x - 1], curr_z, curr_x - 1));
-//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-//			Debug.Log("Added Left Adjacent");
-//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
-		}
-
-		//Check Right
-		if(ValidateTile(curr_z, curr_x + 1, 1) && ValidateTile(curr_z, curr_x + 1, 2) && ValidateTile(curr_z, curr_x + 1, 3))
-		{
-			AdjacentTile.Add(new TileScript(LvlMapData[curr_z][curr_x + 1], curr_z, curr_x + 1));
-//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-//			Debug.Log("Added Right Adjacent");
-//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
-		}
-
-		//Check Up
-		if(ValidateTile(curr_z - 1, curr_x, 1) && ValidateTile(curr_z - 1, curr_x, 2) && ValidateTile(curr_z - 1, curr_x, 3))
-		{
-			AdjacentTile.Add(new TileScript(LvlMapData[curr_z - 1][curr_x], curr_z - 1, curr_x));
-//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-//			Debug.Log("Added Up Adjacent");
-//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
-		}
-
-		//Check Down
-		if(ValidateTile(curr_z + 1, curr_x, 1) && ValidateTile(curr_z + 1, curr_x, 2) && ValidateTile(curr_z + 1, curr_x, 3))
-		{
-			AdjacentTile.Add(new TileScript(LvlMapData[curr_z + 1][curr_x], curr_z + 1, curr_x));
-//			Debug.Log("AdjacentTile: " + AdjacentTile[AdjacentTile.Count - 1].row + ", " + AdjacentTile[AdjacentTile.Count - 1].column);
-//			Debug.Log("Added Down Adjacent");
-//			Debug.Log("Adjacent Count: " + AdjacentTile.Count);
-		}
-	}
-
+	//function to check if current tile to be checked is valid in the A* Pathfinding process
 	private bool ValidateTile(int r, int c, int check)
 	{
 		var LvlMapData = LvlGen.GetComponent<LevelGenerator>().mapData;
@@ -436,41 +336,4 @@ public class AStarPathfinding : MonoBehaviour {
 		}
 		return false;
 	}
-
-//	private void AddToCloseList()
-//	{
-//		int min_id = FindMinF();
-//
-//		CloseList.Add(OpenList[min_id]);
-////		Debug.Log("CloseList Pos: " + CloseList[CloseList.Count - 1].Position + ", F: " + CloseList[CloseList.Count - 1].F + ", G: " + CloseList[CloseList.Count - 1].G + ", H: " + CloseList[CloseList.Count - 1].H);
-////		Debug.Log("CloseList: " + CloseList[CloseList.Count - 1].row + ", " + CloseList[CloseList.Count - 1].column);
-////		Debug.Log("Add to CloseList");
-//		OpenList.Remove(OpenList[min_id]);
-////		Debug.Log("Removed from OpenList");
-//	}
-
-//	private int FindMinF()
-//	{
-//		if(OpenList.Count > 0)
-//		{
-//			int min = (int)OpenList[0].F;
-//			int min_id = 0;
-//			CurrPos = OpenList[min_id].Position;
-////			Debug.Log("CurrPosition1: " + CurrPos);
-//			
-//			for(int i = 0; i < OpenList.Count; i++)
-//			{
-//				if((int)OpenList[i].F < min)
-//				{
-//					min = (int)OpenList[i].F;
-//					min_id = i;
-//					CurrPos = OpenList[min_id].Position;
-//					CurrTile = OpenList[min_id];
-////					Debug.Log("CurrPosition1: " + CurrPos);
-//				}
-//			}
-//			return min_id;
-//		}
-//		return -1;
-//	}
 }
