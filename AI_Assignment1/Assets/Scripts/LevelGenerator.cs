@@ -41,6 +41,12 @@ public class LevelGenerator : MonoBehaviour {
     private List<Vector3> PlayerSpawnLocations;
 
     public static LevelGenerator LevelGeneratorInstance;
+	private List<Vector3> TerrainList = new List<Vector3>();
+	//private terrainLength = jagged[0].Length;
+	//terrainHeight = jagged.Length;
+
+	//GameObject.Find ("Terrain").GetComponent<Terrain> ().terrainData.size = new Vector3 ((float)terrainLength, 1.0f, (float)terrainHeight - 1);
+	
 
     void Awake()
     {
@@ -128,6 +134,8 @@ public class LevelGenerator : MonoBehaviour {
         {
             Instantiate(AIArray[i], FindEnemyWaypoint(CurrentLevelNo), Quaternion.identity);
         }
+
+		GameObject.Find ("Terrain").GetComponent<Terrain> ().terrainData.size = TerrainList[CurrentLevelNo];
     }
 
     List<GameObject> LoadLevelInit(string LevelName,int LoopNo)
@@ -162,7 +170,8 @@ public class LevelGenerator : MonoBehaviour {
             waypointNodes.Add(firstWaypointArray);
             mapData.Add(firstMapData);
         }
-        //GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+
+		TerrainList.Add (new Vector3 (jagged.Length - 1,1.0f,jagged[0].Length));
         DisableMeshRenderer("PlayerSpawn");
         DisableMeshRenderer("EnemySpawn");
 
@@ -274,11 +283,18 @@ public class LevelGenerator : MonoBehaviour {
             v.SetActive(false);
             Destroy(v);
         }
+        GameObject[] SpawnObj = GameObject.FindGameObjectsWithTag("Spawner");
+		foreach (GameObject v in SpawnObj)
+		{
+			v.SetActive(false);
+			Destroy(v);
+		}
 
-        // Disable Current Level and Enable next level
+		// Disable Current Level and Enable next level
         DisableLevel(CurrentLevelNo);
         EnableLevel(++CurrentLevelNo);
-
+		GameObject.Find ("Terrain").GetComponent<Terrain> ().terrainData.size = TerrainList[CurrentLevelNo];
+		
         mapData = TotalmapData[CurrentLevelNo];
         waypointNodes = TotalwaypointNodes[CurrentLevelNo];
 

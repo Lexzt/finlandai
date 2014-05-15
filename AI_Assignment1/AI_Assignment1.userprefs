@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AIPathfindingScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelGenerator.cs">
     <Files>
-      <File FileName="Assets\Scripts\AIAStarScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AIPathfindingScript.cs" Line="41" Column="21" />
-      <File FileName="Assets\Scripts\AStarAlgorithm.cs" Line="65" Column="1" />
-      <File FileName="Assets\Scripts\DijkstraAlgorithm.cs" Line="52" Column="1" />
-      <File FileName="Assets\Scripts\LevelGenerator.cs" Line="26" Column="2" />
+      <File FileName="Assets\Scripts\LevelGenerator.cs" Line="277" Column="49" />
+      <File FileName="Assets\Scripts\AStarAlgorithm.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DijkstraAlgorithm.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Salihin\ShadowScript.cs" Line="35" Column="51" />
+      <File FileName="Assets\Scripts\Kinnear\AStarWaypoint.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Kinnear\WaypointAIScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
