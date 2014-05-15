@@ -4,19 +4,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 public class LevelGenerator : MonoBehaviour {
-    /* 
-     * Things to do, 
-     * 1. All the tile map in Pac man, to Prefab
-     * 2. Plotting out array of blocks for A*
-     * 3. Enemy Prefab
-     * 4. Start Point
-     * 5. Level Design
-     * 6. Hard code generate first, followed by soft code if there is time.
-     * 7. 
-     * 8.
-     * 9.
-     * 10.
-    */
+    // Things need to do
+    // I need to add all their objects with tag AI.
+    // I need to add it to destroy
+    // When changing level, use Load Level
 
     // Currently not in use. 
     //public Object Player;                   // Player prefab, to spawn when created.
@@ -27,7 +18,7 @@ public class LevelGenerator : MonoBehaviour {
 	public GameObject[] AIArray;
 
 	// .txt file to load you level from
-	public string levelName = "Assets/Resources/LEVEL_1.txt";
+	public string levelLocation = "Assets/Resources/";
 	
 	private string waypointStringDifference = "PatrolWaypoints";
 	
@@ -39,7 +30,29 @@ public class LevelGenerator : MonoBehaviour {
 	// Stores all the map data in numbers
 	public List<List<int>> mapData = new List<List<int>>();
 	
+    // Load Level Instance
+    private LoadLevels LevelFiles;
+    public int CurrentLevelNo;
 
+    private List<GameObject> LoadLevelDestroyObjects;
+    private List<List<GameObject>> GameObjectsArray;
+    private List<Vector3> PlayerSpawnLocations;
+
+    public static LevelGenerator LevelGeneratorInstance;
+
+    void Awake()
+    {
+        if (LevelGeneratorInstance != null && LevelGeneratorInstance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            LevelGeneratorInstance = this;
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
 
 
     // Reading from text file, through " " delim.
@@ -61,67 +74,237 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-		//transform.position = playerSpawn.transform.position;
+        // Level Counter
+        CurrentLevelNo = 1;
 
-		// clear the list if there was anything inside it just in case
-		waypointNodes.Clear ();
+        // Level Files to retrive File Data from Resource Folder
+        LevelFiles = GetComponent<LoadLevels>();
+        LevelFiles.LoadLevelsIntoMemory();
 
-        string[][] jagged = readFile("Assets/Resources/LEVEL_1.txt");
+        // Initalize First Level
+        GameObjectsArray = new List<List<GameObject>>();
+        PlayerSpawnLocations = new List<Vector3>();
 
-		waypointName = levelName;
-		waypointName = waypointName.Insert (waypointName.Length - 4, waypointStringDifference);
-		
-		string[][] jaggedWaypoints = readFile (waypointName);
+        // Parent of All Objects in Scene (Testing out Optimizations)
+        GameObject ListOfLevels = new GameObject();
+        ListOfLevels.name = "ListOfLevels";
+
+        // Load All levels in the resource folder from Kinnear Code.
+        for (int i = 0; i < LevelFiles.levels.Count; i++)
+        {
+            GameObject LevelNo = new GameObject();
+            LevelNo.name = "Level " + (i + 1);
+            LevelNo.transform.parent = ListOfLevels.transform;
+
+            // Returns Array of All objects. 
+            List<GameObject> TempArray = LoadLevelInit(levelLocation + LevelFiles.levels[i].name + ".txt");
+            // Create the player at the Spawn Point
+            foreach (GameObject v in TempArray)
+            {
+                v.SetActive(false);
+                v.transform.parent = LevelNo.transform;
+            }
+            // Add the Level Objects into the 2d Array, disabled to not show anything.
+            GameObjectsArray.Add(TempArray);
+        }
+
+        // Load First Level
+        LoadLevel(CurrentLevelNo);
+
+        // Initalize Player
+        Instantiate(Player, FindPlayerWaypoint(CurrentLevelNo), Quaternion.identity);
+        for (int i = 0; i < AIArray.Length; i++)
+        {
+            Instantiate(AIArray[i], FindEnemyWaypoint(CurrentLevelNo), Quaternion.identity);
+        }
+    }
+
+    List<GameObject> LoadLevelInit(string LevelName)
+    {
+        // List of New Game Object per Level
+        List<GameObject> LevelValues = new List<GameObject>();
+
+        // clear the list if there was anything inside it just in case
+        waypointNodes.Clear();
+
+        string[][] jagged = readFile(LevelName);
+
+        waypointName = LevelName;
+        waypointName = waypointName.Insert(waypointName.Length - 4, waypointStringDifference);
+
+        string[][] jaggedWaypoints = readFile(waypointName);
 
         // Map Generator Through Text file
         // Remember to comment back
         for (int y = 0; y < jagged.Length - 1; y++)
         {
-			List<int> firstWaypointArray = new List<int>();
-			List<int> firstMapData = new List<int>();
+            List<int> firstWaypointArray = new List<int>();
+            List<int> firstMapData = new List<int>();
 
             for (int x = 0; x < jagged[0].Length; x++)
             {
                 int Value = int.Parse(jagged[y][x]);
-                //Debug.Log((x * y + y) + ": " + Value);
-                Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity);
-				firstWaypointArray.Add(int.Parse(jaggedWaypoints[y][x])); // assign the waypoint to the node
-				firstMapData.Add(int.Parse(jagged[y][x]));
+                LevelValues.Add(Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity) as GameObject);
+                firstWaypointArray.Add(int.Parse(jaggedWaypoints[y][x])); // assign the waypoint to the node
+                firstMapData.Add(int.Parse(jagged[y][x]));
             }
-			waypointNodes.Add(firstWaypointArray);
-			mapData.Add(firstMapData);
+            waypointNodes.Add(firstWaypointArray);
+            mapData.Add(firstMapData);
         }
 
+        //GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+        DisableMeshRenderer("PlayerSpawn");
+        DisableMeshRenderer("EnemySpawn");
 
-
-
-
-		//GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
-		DisableMeshRenderer("PlayerSpawn");
-		DisableMeshRenderer("EnemySpawn");
-
-		// Create the player at the Spawn Point
-		SpawnPrefab(ref Player, "PlayerSpawn");
-
-		//Instantiate various AI
-		//Put this shit in LevelManager
-		for(int i = 0; i < AIArray.Length; i++)
-		{
-			SpawnPrefab(ref AIArray[i], "EnemySpawn");
-		}
+        return LevelValues;
     }
-	
+
+    void LoadLevel(int LevelNo)
+    {
+        foreach (GameObject v in GameObjectsArray[LevelNo])
+        {
+            v.SetActive(true);
+        }
+    }
+
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            LoadNextLevel();
+        }
 	}
+
+    void DestroyAllObjects()
+    {
+        LoadLevelDestroyObjects = new List<GameObject>();
+
+        GameObject[] ObjectArray        = GameObject.FindGameObjectsWithTag ("Bits");
+        GameObject[] BigBitsArray       = GameObject.FindGameObjectsWithTag ("BigBits");
+        GameObject[] EmptyArray         = GameObject.FindGameObjectsWithTag ("Empty");
+        GameObject[] EnvironmentArray   = GameObject.FindGameObjectsWithTag ("EnvironmentCube");
+        GameObject[] AIList             = GameObject.FindGameObjectsWithTag ("Ghost");
+        GameObject EnemySpawn           = GameObject.FindGameObjectWithTag  ("EnemySpawn");
+        GameObject PlayerSpawn          = GameObject.FindGameObjectWithTag  ("PlayerSpawn");
+
+
+        foreach (GameObject v in ObjectArray)
+        {
+            LoadLevelDestroyObjects.Add(v);
+        }
+
+        foreach (GameObject v in BigBitsArray)
+        {
+            LoadLevelDestroyObjects.Add(v);
+        }
+
+        foreach (GameObject v in EmptyArray)
+        {
+            LoadLevelDestroyObjects.Add(v);
+        }
+
+        foreach (GameObject v in EnvironmentArray)
+        {
+            LoadLevelDestroyObjects.Add(v);
+        }
+
+        foreach (GameObject v in AIList)
+        {
+            LoadLevelDestroyObjects.Add(v);
+        }
+        LoadLevelDestroyObjects.Add(EnemySpawn);
+        LoadLevelDestroyObjects.Add(PlayerSpawn);
+
+        foreach (GameObject v in LoadLevelDestroyObjects)
+        {
+            Destroy(v);
+        }
+    }
+
+    void DisableLevel(int LevelNo)
+    {
+        foreach (GameObject v in GameObjectsArray[LevelNo])
+        {
+            v.SetActive(false);
+        }
+    }
+
+    void EnableLevel(int LevelNo)
+    {
+        foreach (GameObject v in GameObjectsArray[LevelNo])
+        {
+            v.SetActive(true);
+        }
+    }
 
 	void DisableMeshRenderer(string tag)
 	{
 		GameObject.FindGameObjectWithTag(tag).GetComponent<MeshRenderer>().enabled = false;
 	}
 
-	void SpawnPrefab(ref GameObject obj, string tag)
+	object SpawnPrefab(ref GameObject obj, string tag)
 	{
 		obj = Instantiate((Object)obj, GameObject.FindGameObjectWithTag(tag).transform.position, Quaternion.identity) as GameObject;
+        return obj;
 	}
+
+    object SpawnPrefab(ref GameObject obj, Vector3 tempPos)
+    {
+        obj = Instantiate((Object)obj, tempPos, Quaternion.identity) as GameObject;
+        return obj;
+    }
+
+    void LoadNextLevel()
+    {
+        // Disable Current Level and Enable next level
+        DisableLevel(CurrentLevelNo);
+        EnableLevel(++CurrentLevelNo);
+        
+        // Change Current Player Position
+        GameObject Playerobj = GameObject.FindGameObjectWithTag("Player");
+        Playerobj.transform.position = FindPlayerWaypoint(CurrentLevelNo);
+
+        // Disable Current Level AI
+        GameObject[] GhostObj = GameObject.FindGameObjectsWithTag("Ghost");
+        foreach (GameObject v in GhostObj)
+        {
+            v.SetActive(false);
+            Destroy(v);
+        }
+
+        // Initalize a New Set of AI
+        for (int i = 0; i < AIArray.Length; i++)
+        {
+            Instantiate(AIArray[i], FindEnemyWaypoint(CurrentLevelNo), Quaternion.identity);
+        }
+    }
+
+    Vector3 FindPlayerWaypoint(int LevelNo)
+    {
+        for (int i = 0; i < GameObjectsArray[LevelNo].Count; i++)
+        {
+            if (GameObjectsArray[LevelNo][i].tag == "PlayerSpawn")
+            {
+                Vector3 tempPos = GameObjectsArray[LevelNo][i].transform.position;
+                Debug.Log(tempPos.x + ", " + tempPos.y + ", " + tempPos.z);
+                return tempPos;
+            }
+        }
+        return new Vector3(0, 0, 0);
+    }
+
+    Vector3 FindEnemyWaypoint(int LevelNo)
+    {
+        for (int i = 0; i < GameObjectsArray[LevelNo].Count; i++)
+        {
+            if (GameObjectsArray[LevelNo][i].tag == "EnemySpawn")
+            {
+                Vector3 tempPos = GameObjectsArray[LevelNo][i].transform.position;
+                Debug.Log(tempPos.x + ", " + tempPos.y + ", " + tempPos.z);
+                return tempPos;
+            }
+        }
+        return new Vector3(0, 0, 0);
+    }
 }

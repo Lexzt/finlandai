@@ -20,8 +20,8 @@ public class ShadowScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		LvlGen = GameObject.Find("LevelGenerator");
-		Pacman = LvlGen.GetComponent<LevelGenerator>().Player;
+        LvlGen = GameObject.Find("LevelGenerator");
+        Pacman = GameObject.FindGameObjectWithTag("Player");
 
 		// This is to intialise the shadow AI and player
 		AStar = new AStarPathfinding(transform.gameObject, Pacman, LvlGen);
