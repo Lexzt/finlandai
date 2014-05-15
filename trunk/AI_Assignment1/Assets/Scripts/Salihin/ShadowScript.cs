@@ -22,6 +22,7 @@ public class ShadowScript : MonoBehaviour {
 	void Start () {
         LvlGen = GameObject.Find("LevelGenerator");
         Pacman = GameObject.FindGameObjectWithTag("Player");
+		
 
 		// This is to intialise the shadow AI and player
 		AStar = new AStarPathfinding(transform.gameObject, Pacman, LvlGen);
@@ -29,6 +30,10 @@ public class ShadowScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Need to ask Sal
+		if(Pacman == null)
+        	Pacman = GameObject.FindGameObjectWithTag("Player");
+
 		//as long as Pacman is in range, start the process of plotting the path towards Pacman using A* Pathfinding
 		if(CalcDistance(Pacman.transform.position) <= Trigger_Dist)
 		{
