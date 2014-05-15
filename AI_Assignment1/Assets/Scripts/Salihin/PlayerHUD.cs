@@ -11,12 +11,15 @@ public class PlayerHUD : MonoBehaviour {
 	string LivesDisplay;									//introduce variable to store string displaying lives on GUI
 	public int PlayerHealth;								//introduce variable to store Player's health
 
+	void Awake () {
+		PlayerPoint = 0;
+	}
+
 	// Use this for initialization
 	void Start () {
 
 		//initialize the variables for Player's points in this script
 		PlayerScore = new Rect(Screen.width * 0.9f, 0.0f, Screen.width * 0.1f, Screen.height * 0.05f);
-		PlayerPoint = 0;
 		ScoreDisplay = "SCORE: " + PlayerPoint.ToString();
 
 		//initialize the variables for Player's health in this script
