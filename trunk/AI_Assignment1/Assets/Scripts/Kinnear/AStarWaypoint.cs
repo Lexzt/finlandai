@@ -70,7 +70,7 @@ public class AStarWaypoint : MonoBehaviour {
 
 		ai.transform.position = GameObject.FindGameObjectWithTag ("EnemySpawn").transform.position;
 
-		levelReference = GameObject.Find ("LevelGenerator");
+		levelReference = GameObject.FindGameObjectWithTag ("LevelGenerator");
 
 		for(int i = 0; i < levelReference.GetComponent<LevelGenerator>().mapData.Count; i++)
 		{
