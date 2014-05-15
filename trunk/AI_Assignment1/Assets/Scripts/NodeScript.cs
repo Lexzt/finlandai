@@ -71,29 +71,4 @@ public class NodeScript : MonoBehaviour {
             }
         }
     }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, Vector3.one);
-        foreach (GameObject neighbor in neighbors)
-        {
-            Gizmos.DrawLine(transform.position, neighbor.transform.position);
-            Gizmos.DrawWireSphere(neighbor.transform.position, 0.25f);
-        }
-
-        if (goal)
-        {
-            Gizmos.color = Color.green;
-            GameObject current = gameObject;
-            Stack<GameObject> path = DijkstraAlgorithm.Dijkstra(GameObject.FindGameObjectsWithTag("Bits"), gameObject, goal);
-
-            foreach (GameObject obj in path)
-            {
-                Debug.Log("Got here also!");
-                Gizmos.DrawWireSphere(obj.transform.position, 1.0f);
-                Gizmos.DrawLine(current.transform.position, obj.transform.position);
-                current = obj;
-            }
-        }
-    }
 }
