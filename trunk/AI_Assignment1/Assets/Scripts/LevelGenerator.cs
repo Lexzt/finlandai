@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 public class LevelGenerator : MonoBehaviour {
-    // Things need to do
-    // I need to add all their objects with tag AI.
-    // I need to add it to destroy
-    // When changing level, use Load Level
-
-    // Currently not in use. 
-    //public Object Player;                   // Player prefab, to spawn when created.
-
     public Object[] PrefabArray;            // Array of walls
     public float f_SizeDiff = 1;              // Size of each tile in 3D.
 	public GameObject Player;
@@ -290,6 +282,8 @@ public class LevelGenerator : MonoBehaviour {
 			Destroy(v);
 		}
 
+
+
 		// Disable Current Level and Enable next level
         DisableLevel(CurrentLevelNo);
         EnableLevel(++CurrentLevelNo);
@@ -298,11 +292,21 @@ public class LevelGenerator : MonoBehaviour {
         mapData = TotalmapData[CurrentLevelNo];
         waypointNodes = TotalwaypointNodes[CurrentLevelNo];
 
-        // Change Current Player Position
+        // Destory Current Player and Re initalize.
         GameObject Playerobj = GameObject.FindGameObjectWithTag("Player");
-        Destroy(Playerobj);
 
-        Instantiate(Player, FindPlayerWaypoint(CurrentLevelNo), Quaternion.identity);
+		Debug.Log ("Score: "+Playerobj.GetComponent<PlayerHUD> ().PlayerPoint);
+
+		// Save Lives and Bit Count
+		PlayerPrefs.SetInt ("Score", Playerobj.GetComponent<PlayerHUD> ().PlayerPoint);
+		PlayerPrefs.SetInt ("Health", Playerobj.GetComponent<PlayerHUD> ().PlayerHealth);
+        Destroy(Playerobj);
+		Debug.Log ("Score New: "+PlayerPrefs.GetInt ("Score"));
+        GameObject NewObj = (Instantiate(Player, FindPlayerWaypoint(CurrentLevelNo), Quaternion.identity) as GameObject);
+		NewObj.GetComponent<PlayerHUD> ().PlayerPoint = PlayerPrefs.GetInt ("Score");
+		NewObj.GetComponent<PlayerHUD> ().PlayerHealth = PlayerPrefs.GetInt ("Health");
+
+		Debug.Log (NewObj.GetComponent<PlayerHUD> ().PlayerPoint);
 
         // Initalize a New Set of AI
         for (int i = 0; i < AIArray.Length; i++)
@@ -332,7 +336,6 @@ public class LevelGenerator : MonoBehaviour {
             if (GameObjectsArray[LevelNo][i].tag == "EnemySpawn")
             {
                 Vector3 tempPos = GameObjectsArray[LevelNo][i].transform.position;
-                Debug.Log(tempPos.x + ", " + tempPos.y + ", " + tempPos.z);
                 return tempPos;
             }
         }
