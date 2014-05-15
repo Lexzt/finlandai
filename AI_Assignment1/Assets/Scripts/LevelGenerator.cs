@@ -25,14 +25,16 @@ public class LevelGenerator : MonoBehaviour {
 	public string waypointName;
 
 	// stores the new level's data if theres such a thing
-	public List<List<int>> waypointNodes = new List<List<int>>();
+    public List<List<List<int>>> TotalwaypointNodes = new List<List<List<int>>>();
+    public List<List<int>> waypointNodes;
 
 	// Stores all the map data in numbers
-	public List<List<int>> mapData = new List<List<int>>();
+    public List<List<List<int>>> TotalmapData = new List<List<List<int>>>();
+    public List<List<int>> mapData;
 	
     // Load Level Instance
     private LoadLevels LevelFiles;
-    public int CurrentLevelNo;
+    private int CurrentLevelNo;
 
     private List<GameObject> LoadLevelDestroyObjects;
     private List<List<GameObject>> GameObjectsArray;
@@ -75,7 +77,7 @@ public class LevelGenerator : MonoBehaviour {
     void Start()
     {
         // Level Counter
-        CurrentLevelNo = 1;
+        CurrentLevelNo = 0;
 
         // Level Files to retrive File Data from Resource Folder
         LevelFiles = GetComponent<LoadLevels>();
@@ -92,12 +94,15 @@ public class LevelGenerator : MonoBehaviour {
         // Load All levels in the resource folder from Kinnear Code.
         for (int i = 0; i < LevelFiles.levels.Count; i++)
         {
+			mapData = new List<List<int>>();
+			waypointNodes = new List<List<int>>();
+
             GameObject LevelNo = new GameObject();
             LevelNo.name = "Level " + (i + 1);
             LevelNo.transform.parent = ListOfLevels.transform;
 
             // Returns Array of All objects. 
-            List<GameObject> TempArray = LoadLevelInit(levelLocation + LevelFiles.levels[i].name + ".txt");
+            List<GameObject> TempArray = LoadLevelInit(levelLocation + LevelFiles.levels[i].name + ".txt",i);
             // Create the player at the Spawn Point
             foreach (GameObject v in TempArray)
             {
@@ -106,12 +111,18 @@ public class LevelGenerator : MonoBehaviour {
             }
             // Add the Level Objects into the 2d Array, disabled to not show anything.
             GameObjectsArray.Add(TempArray);
+
+			TotalmapData.Add(mapData);
+			TotalwaypointNodes.Add(waypointNodes);
         }
 
         // Load First Level
         LoadLevel(CurrentLevelNo);
-
-        // Initalize Player
+		
+		mapData = TotalmapData[CurrentLevelNo];
+		waypointNodes = TotalwaypointNodes[CurrentLevelNo];
+		
+		// Initalize Player
         Instantiate(Player, FindPlayerWaypoint(CurrentLevelNo), Quaternion.identity);
         for (int i = 0; i < AIArray.Length; i++)
         {
@@ -119,7 +130,7 @@ public class LevelGenerator : MonoBehaviour {
         }
     }
 
-    List<GameObject> LoadLevelInit(string LevelName)
+    List<GameObject> LoadLevelInit(string LevelName,int LoopNo)
     {
         // List of New Game Object per Level
         List<GameObject> LevelValues = new List<GameObject>();
@@ -151,7 +162,6 @@ public class LevelGenerator : MonoBehaviour {
             waypointNodes.Add(firstWaypointArray);
             mapData.Add(firstMapData);
         }
-
         //GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
         DisableMeshRenderer("PlayerSpawn");
         DisableMeshRenderer("EnemySpawn");
@@ -257,14 +267,6 @@ public class LevelGenerator : MonoBehaviour {
 
     void LoadNextLevel()
     {
-        // Disable Current Level and Enable next level
-        DisableLevel(CurrentLevelNo);
-        EnableLevel(++CurrentLevelNo);
-        
-        // Change Current Player Position
-        GameObject Playerobj = GameObject.FindGameObjectWithTag("Player");
-        Playerobj.transform.position = FindPlayerWaypoint(CurrentLevelNo);
-
         // Disable Current Level AI
         GameObject[] GhostObj = GameObject.FindGameObjectsWithTag("Ghost");
         foreach (GameObject v in GhostObj)
@@ -272,6 +274,19 @@ public class LevelGenerator : MonoBehaviour {
             v.SetActive(false);
             Destroy(v);
         }
+
+        // Disable Current Level and Enable next level
+        DisableLevel(CurrentLevelNo);
+        EnableLevel(++CurrentLevelNo);
+
+        mapData = TotalmapData[CurrentLevelNo];
+        waypointNodes = TotalwaypointNodes[CurrentLevelNo];
+
+        // Change Current Player Position
+        GameObject Playerobj = GameObject.FindGameObjectWithTag("Player");
+        Destroy(Playerobj);
+
+        Instantiate(Player, FindPlayerWaypoint(CurrentLevelNo), Quaternion.identity);
 
         // Initalize a New Set of AI
         for (int i = 0; i < AIArray.Length; i++)
@@ -306,5 +321,15 @@ public class LevelGenerator : MonoBehaviour {
             }
         }
         return new Vector3(0, 0, 0);
+    }
+
+    public GameObject[] CurrentActiveLevel ()
+    {
+        List<GameObject> ReturnArray = new List<GameObject>();
+        foreach (GameObject v in GameObjectsArray[CurrentLevelNo])
+        {
+            ReturnArray.Add(v);
+        }
+        return ReturnArray.ToArray();
     }
 }

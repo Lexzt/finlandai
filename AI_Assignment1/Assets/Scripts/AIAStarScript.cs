@@ -1,123 +1,112 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class AIAStarScript : MonoBehaviour {
+	public float m_fSpeed = 5.0f;
+	private GameObject goal;
+	private Stack<GameObject> s_Path = null;
+	
+	public GameObject currentEnd = null;
+	
+	private float startTime;
+	private float journeyLength;
+	
+	private GameObject currentTarget;
+	private bool m_bReCalc = false;
+	private Transform currentEndTrans;
+	
+	private List<GameObject> ListArray;
+	private GameObject[] FinalArray;
 
-    private GameObject goal;
-    public List<GameObject> s_Path = null;
-
-    public GameObject currentEnd = null;
-
-    private float startTime;
-    private float journeyLength;
-
-    private GameObject currentTarget;
-    //private Transform playerTrans;
-    private bool m_bReCalc = false;
-    private Transform currentEndTrans;
-
-    void Start()
+    void Start ()
     {
+		GameObject Newplayer = GameObject.FindGameObjectWithTag("Player");
+		currentTarget = new GameObject();
+		currentTarget.transform.position = new Vector3(Newplayer.transform.position.x, Newplayer.transform.position.y, Newplayer.transform.position.z);
 
+		GameObject[] ObjectArray 	= GameObject.FindGameObjectsWithTag ("Bits");
+		GameObject[] BigBitsArray 	= GameObject.FindGameObjectsWithTag ("BigBits");
+		GameObject[] EmptyArray 	= GameObject.FindGameObjectsWithTag ("Empty");
+		GameObject EnemySpawn 		= GameObject.FindGameObjectWithTag 	("EnemySpawn");
+		GameObject PlayerSpawn	 	= GameObject.FindGameObjectWithTag 	("PlayerSpawn");
+		ListArray = new List<GameObject>();
 		
-		//GameObject Newplayer = GameObject.FindGameObjectWithTag("Player");
-        //currentTarget = new GameObject();
-        //currentTarget.transform.position = new Vector3(Newplayer.transform.position.x, Newplayer.transform.position.y, Newplayer.transform.position.z);
-
-        
-
-        
-    }
-
-	void Update ()
-	{
-		if(Input.GetKeyDown(KeyCode.B))
+		foreach (GameObject v in ObjectArray) 
 		{
-			GameObject player = GameObject.FindGameObjectWithTag("Player");
-			GameObject tempCurrentNode1 = gameObject.GetComponent<CurrentNodeScript> ().currentNode;
-			GameObject tempCurrentNode2 = player.GetComponent<CurrentNodeScript>().currentNode;
+			ListArray.Add(v);
+		}
+		
+		foreach (GameObject v in BigBitsArray) 
+		{
+			ListArray.Add(v);
+		}
+		
+		foreach (GameObject v in EmptyArray) 
+		{
+			ListArray.Add(v);
+		}		
+		ListArray.Add(EnemySpawn);
+		ListArray.Add(PlayerSpawn);
+		
+		FinalArray = ListArray.ToArray ();
+    }
+	
+	void Update () 
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		
+		if (currentTarget.transform.position.x != player.transform.position.x &&
+		    currentTarget.transform.position.z != player.transform.position.z)
+		{
+			m_bReCalc = true;
+		}
+		else
+		{
+			m_bReCalc = false;
+		}
+		
+		if(s_Path == null)
+		{
+			s_Path = AStarAlgorithm.AStar(	FinalArray,
+											gameObject.GetComponent<CurrentNodeScript>().currentNode,
+											player.GetComponent<CurrentNodeScript>().currentNode);
+		}
+		else if (m_bReCalc == true)
+		{
+			m_bReCalc = false;
+			currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
 			
-			s_Path = AStarAlgorithm.AStarNew(
-				GameObject.FindGameObjectsWithTag("Bits"),
-				tempCurrentNode1,
-				tempCurrentNode2);
-			
-			foreach (GameObject obj in s_Path)
+			s_Path.Clear();
+			s_Path = AStarAlgorithm.AStar(	FinalArray,
+											gameObject.GetComponent<CurrentNodeScript>().currentNode,
+											player.GetComponent<CurrentNodeScript>().currentNode);
+		}
+		
+		if (gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position != player.GetComponent<CurrentNodeScript>().currentNode.transform.position)
+		{
+			if (s_Path != null)
 			{
-				Debug.Log(obj.transform.position.x + " " + obj.transform.position.y + " " + obj.transform.position.z);
+				if ((currentEnd == null || transform.position == currentEnd.transform.position) && s_Path.Count != 0)
+				{
+					currentEnd = s_Path.Pop();
+					
+					startTime = Time.time;
+					journeyLength = Vector3.Distance(transform.position, currentEnd.transform.position);
+				}
+				else
+				{
+					float distCovered = (Time.time - startTime) * m_fSpeed;
+					float fracJourney = distCovered / journeyLength;
+					
+					transform.position = Vector3.MoveTowards(transform.position, currentEnd.transform.position, fracJourney);
+				}
 			}
 		}
+		else
+		{
+			// Player minus health over here.
+			// Add later
+		}
 	}
-	
-	//// Update is called once per frame
-    //void Update()
-    //{
-    //    GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-    //    if (currentTarget.transform.position.x != player.transform.position.x &&
-    //        currentTarget.transform.position.z != player.transform.position.z)
-    //    {
-    //        m_bReCalc = true;
-    //    }
-    //    else
-    //    {
-    //        m_bReCalc = false;
-    //    }
-
-    //    if (s_Path == null)
-    //    {
-    //        Vector2 StartPos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
-    //        Vector2 EndPos = new Vector2(player.transform.position.x, player.transform.position.z);
-
-    //        s_Path = AStarAlgorithm.AStar(
-    //                 GameObject.FindGameObjectsWithTag("Bits"),
-    //                 StartPos,
-    //                 EndPos);
-    //    }
-    //    else if (m_bReCalc == true)
-    //    {
-    //        Debug.Log("Re calculating Path");
-
-    //        m_bReCalc = false;
-    //        currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-
-    //        Vector2 StartPos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
-    //        Vector2 EndPos = new Vector2(player.transform.position.x, player.transform.position.z);
-
-    //        s_Path.Clear();
-    //        s_Path = AStarAlgorithm.AStar(
-    //                 GameObject.FindGameObjectsWithTag("Bits"),
-    //                 StartPos,
-    //                 EndPos);
-    //    }
-    //    else if (s_Path != null)
-    //    {
-    //        if (currentEnd == null || transform.position == currentEnd.transform.position)
-    //        {
-    //            Debug.Log("Pop Stack");
-    //            Vector2 tempEnd = s_Path.Pop();
-
-    //            GameObject checkObj = new GameObject();
-    //            checkObj.transform.position = new Vector3(tempEnd.x,currentEnd.transform.position.y,tempEnd.y);
-    //            currentEnd = checkObj;
-
-    //            startTime = Time.time;
-    //            journeyLength = Vector3.Distance(transform.position, currentEnd.transform.position);
-    //        }
-    //        else
-    //        {
-    //            float distCovered = (Time.time - startTime) * m_fSpeed;
-    //            float fracJourney = distCovered / journeyLength;
-
-    //            transform.position = Vector3.Lerp(transform.position, currentEnd.transform.position, fracJourney);
-    //        }
-    //    }
-    //    //Debug.Log(s_Path.Count);
-
-    //    //foreach (GameObject obj in s_Path)
-    //    //{
-    //    //    Debug.Log(obj.transform.position.x + " " + obj.transform.position.y + " " + obj.transform.position.z);
-    //    //}
-    //}
 }
