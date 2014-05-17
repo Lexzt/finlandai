@@ -28,17 +28,11 @@ public class DisplayEditorGUI : MonoBehaviour {
 	public string newTerrainHeight = "";
 	public string newTerrainWidth = "";
 
-	// Decides if we're building using a waypoint or a standard tile selection
-	//public bool waypointApplication = false;
-
-	//public bool advancedWaypointApplication = false;
-
 	public Object[] PrefabArray;
 
 	public int numberOfPrefabs = 0;
 
 	public TypeOfInput inputType = TypeOfInput.NORMAL_TILE;
-
 
 	// Button variables
 	public int buttonWidth = 100;
@@ -65,11 +59,14 @@ public class DisplayEditorGUI : MonoBehaviour {
 
 	public void DisplayListOfLoadedLevels()
 	{
-		levelsScrollPosition = GUI.BeginScrollView(new Rect(150, 10, 150, 800), levelsScrollPosition, new Rect(0, 0, 50, 600));
+
+		levelsScrollPosition = GUI.BeginScrollView(new Rect(150, 10, 150, 300), levelsScrollPosition, new Rect(0, 0, 50, (GetComponent<LoadLevels>().levels.Count * buttonHeight) + (GetComponent<LoadLevels>().levels.Count * buttonHeightSpacing)));
 
 		for(int i = 0; i < GetComponent<LoadLevels>().levels.Count; i++)
 		{
-			if(GUI.Button(new Rect(0, (buttonHeight * i) + (buttonHeightSpacing * i), buttonWidth, buttonHeight), GetComponent<LoadLevels>().levels[i].name))
+			Debug.Log("Amt of levels we loaded: " + GetComponent<LoadLevels>().levels.Count);
+
+			if(GUI.Button(new Rect(0, (buttonHeight * i) + (buttonHeightSpacing * i), buttonWidth + 30, buttonHeight), GetComponent<LoadLevels>().levels[i].name))
 			{
 				Debug.Log(GetComponent<LoadLevels>().levels[i].name);
 
@@ -145,7 +142,6 @@ public class DisplayEditorGUI : MonoBehaviour {
 		// Create new Level
 		if (GUI.Button (new Rect (110 + buttonWidth, Screen.height - (buttonHeight * 3), buttonWidth, buttonHeight), "Create New Level"))
 		{
-			//GetComponent<EditLevel>().SaveLevel();
 			//toggle the new level menu
 			createNewLevel = !createNewLevel;
 		}
@@ -171,6 +167,12 @@ public class DisplayEditorGUI : MonoBehaviour {
 			inputType = TypeOfInput.WAYPOINT;
 		}
 
+		// Exit to Main Menu Button
+		if (GUI.Button (new Rect (Screen.width - 250, 10, 150, 20), "Back To Main Menu"))
+		{
+			Application.LoadLevel("Menu");
+		}
+
 		// If the user clicked Load Levels we show don't show depending
 		if(showLevelsList)
 		{
@@ -181,8 +183,6 @@ public class DisplayEditorGUI : MonoBehaviour {
 		{
 			windowRect = GUI.Window (0, windowRect, DisplayCreateNewLevel, "");
 		}
-
-		//Debug.Log ("Waypointapplication: " + waypointApplication);
 
 	}
 }
