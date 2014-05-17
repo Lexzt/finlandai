@@ -34,11 +34,10 @@ public class LevelGenerator : MonoBehaviour {
 
     public static LevelGenerator LevelGeneratorInstance;
 	private List<Vector3> TerrainList = new List<Vector3>();
-	//private terrainLength = jagged[0].Length;
-	//terrainHeight = jagged.Length;
 
-	//GameObject.Find ("Terrain").GetComponent<Terrain> ().terrainData.size = new Vector3 ((float)terrainLength, 1.0f, (float)terrainHeight - 1);
-	
+	private List<int> ListofEndGame = new List<int>();	
+
+	private GameObject PlayerObj;
 
     void Awake()
     {
@@ -132,6 +131,9 @@ public class LevelGenerator : MonoBehaviour {
 
     List<GameObject> LoadLevelInit(string LevelName,int LoopNo)
     {
+		// End Game Check per level
+		int SendToListOfEndGame = 0;
+
         // List of New Game Object per Level
         List<GameObject> LevelValues = new List<GameObject>();
 
@@ -158,6 +160,16 @@ public class LevelGenerator : MonoBehaviour {
                 LevelValues.Add(Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity) as GameObject);
                 firstWaypointArray.Add(int.Parse(jaggedWaypoints[y][x])); // assign the waypoint to the node
                 firstMapData.Add(int.Parse(jagged[y][x]));
+
+				// If Value is 6 in the CSV file
+				if(Value == 6)
+				{
+					SendToListOfEndGame++;
+				}
+				if(Value == 7)
+				{
+					SendToListOfEndGame += 3;
+				}
             }
             waypointNodes.Add(firstWaypointArray);
             mapData.Add(firstMapData);
@@ -167,6 +179,7 @@ public class LevelGenerator : MonoBehaviour {
         DisableMeshRenderer("PlayerSpawn");
         DisableMeshRenderer("EnemySpawn");
 
+		ListofEndGame.Add (SendToListOfEndGame);
         return LevelValues;
     }
 
@@ -181,10 +194,22 @@ public class LevelGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            LoadNextLevel();
-        }
+		// End Game Check, Hacked to work
+//        if (Input.GetKeyDown(KeyCode.J))
+//        {
+//            LoadNextLevel();
+//        }
+		if (PlayerObj == null)
+		{
+			PlayerObj = GameObject.FindGameObjectWithTag ("Player");
+		}
+		else
+		{
+			if(ListofEndGame[CurrentLevelNo] == PlayerObj.GetComponent<PlayerHUD>().PlayerPoint)
+			{
+				LoadNextLevel();
+			}
+		}
 	}
 
     void DestroyAllObjects()
@@ -294,8 +319,6 @@ public class LevelGenerator : MonoBehaviour {
 
         // Destory Current Player and Re initalize.
         GameObject Playerobj = GameObject.FindGameObjectWithTag("Player");
-
-		Debug.Log ("Score: "+Playerobj.GetComponent<PlayerHUD> ().PlayerPoint);
 
 		// Save Lives and Bit Count
 		PlayerPrefs.SetInt ("Score", Playerobj.GetComponent<PlayerHUD> ().PlayerPoint);
