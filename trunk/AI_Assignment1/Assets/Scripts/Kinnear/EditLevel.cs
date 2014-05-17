@@ -653,7 +653,7 @@ public class EditLevel : MonoBehaviour {
 								{
 									UnselectedWaypoint(hit.transform.gameObject.GetComponent<NodeDetails>().x, hit.transform.gameObject.GetComponent<NodeDetails>().y);
 									hit.transform.gameObject.GetComponent<NodeDetails>().waypointID = 0;
-								}
+							}
 							}
 						
 							// We check if the waypoint is valid and then we apply the waypoint indication number and then we set that node in the level to 0 which is clear block
@@ -667,6 +667,15 @@ public class EditLevel : MonoBehaviour {
 
 			}
 		}
+
+		// Detection for mouse scrolling the camera top and down
+		if(!GetComponent<DisplayEditorGUI>().showLevelsList)
+		{
+			// Dont scroll on the camera
+			Camera.main.transform.position += -(Vector3.up * Input.GetAxis("Mouse ScrollWheel"));
+		}
+
+		Debug.Log ("Mouse Scroll Wheel value : " + (Vector3.forward * Input.GetAxis ("Mouse ScrollWheel")));
 
 		if(Input.GetKey(KeyCode.Alpha1))
 		{
