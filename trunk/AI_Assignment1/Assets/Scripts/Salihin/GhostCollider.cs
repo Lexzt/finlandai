@@ -28,12 +28,12 @@ public class GhostCollider : MonoBehaviour {
 					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[0], Ghost.transform.position, Quaternion.identity);
 					Destroy(BitCollider.gameObject);
 				}
-				else if(BitCollider.gameObject.name == "Prediction AI Spawner(Clone)")
+				else if(BitCollider.gameObject.name == "Prediction AI(Kinnear)(Clone)")
 				{
 //					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[1], Ghost.transform.position, Quaternion.identity);
 					BitCollider.gameObject.transform.position = Ghost.transform.position;
 				}
-				else if(BitCollider.gameObject.name == "Waypoint AI Spawner(Clone)")
+				else if(BitCollider.gameObject.name == "Waypoint AI(Kinnear)(Clone)")
 				{
 //					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[2], Ghost.transform.position, Quaternion.identity);
 					BitCollider.gameObject.transform.position = Ghost.transform.position;
