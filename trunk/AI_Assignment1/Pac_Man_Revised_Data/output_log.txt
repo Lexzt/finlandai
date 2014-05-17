@@ -1,0 +1,54 @@
+Initialize engine version: 4.3.4f1 (e444f76e01cd)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [igdumdx32.dll 9.18.13.3489]
+    Renderer: Intel(R) HD Graphics Family
+    Vendor:   Intel
+    VRAM:     880 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+- Completed reload, in  0.081 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Users\Salihin\Desktop\Finland SVN\finlandai\AI_Assignment1\Pac_Man_Revised_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 0.395642 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 10100.
+Total: 2.894705 ms (FindLiveObjects: 0.566009 ms CreateObjectMapping: 0.036433 ms MarkObjects: 1.284939 ms  DeleteObjects: 0.361260 ms)
+
+UnloadTime: 30.948360 ms
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 647 unused Assets to reduce memory usage. Loaded Objects now: 176.
+Total: 5.247007 ms (FindLiveObjects: 0.031815 ms CreateObjectMapping: 0.104170 ms MarkObjects: 0.176012 ms  DeleteObjects: 4.214539 ms)
+
+UnloadTime: 0.691732 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 358.
+Total: 2.823890 ms (FindLiveObjects: 0.039512 ms CreateObjectMapping: 0.051315 ms MarkObjects: 0.485957 ms  DeleteObjects: 0.629127 ms)
+
+No idle animation found. Turning off animations.
+ 
+(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+
+No walk animation found. Turning off animations.
+ 
+(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+
+No run animation found. Turning off animations.
+ 
+(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+
