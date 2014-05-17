@@ -207,10 +207,10 @@ public class LevelGenerator : MonoBehaviour {
 	void Update () 
     {
 		// End Game Check, Hacked to work
-//        if (Input.GetKeyDown(KeyCode.J))
-//        {
-//            LoadNextLevel();
-//        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            LoadNextLevel();
+        }
 		if (PlayerObj == null)
 		{
 			PlayerObj = GameObject.FindGameObjectWithTag ("Player");
@@ -357,7 +357,7 @@ public class LevelGenerator : MonoBehaviour {
             if (GameObjectsArray[LevelNo][i].tag == "PlayerSpawn")
             {
                 Vector3 tempPos = GameObjectsArray[LevelNo][i].transform.position;
-                Debug.Log(tempPos.x + ", " + tempPos.y + ", " + tempPos.z);
+//                Debug.Log(tempPos.x + ", " + tempPos.y + ", " + tempPos.z);
                 return tempPos;
             }
         }

@@ -36,7 +36,7 @@ public class DrawLines : MonoBehaviour {
 	{
 		List<Vector3> lines = GameObject.Find("GameManager").GetComponent<EditLevel>().lineConnector;
 
-		Debug.Log ("Amount of items in list: " + lines.Count);
+//		//Debug.Log ("Amount of items in list: " + lines.Count);
 
 		CreateLineMaterial();
 		// set the current material

@@ -175,7 +175,7 @@ public class EditLevel : MonoBehaviour {
 
 		if(saveText.EndsWith("\n"))
 		{
-			Debug.Log("There is a carriage return");
+			//Debug.Log("There is a carriage return");
 		}
 
 		file.WriteLine(saveText);
@@ -211,7 +211,7 @@ public class EditLevel : MonoBehaviour {
 		
 		if(saveText.EndsWith("\n"))
 		{
-			Debug.Log("There is a carriage return");
+			//Debug.Log("There is a carriage return");
 		}
 		
 		file.WriteLine(saveText);
@@ -250,18 +250,18 @@ public class EditLevel : MonoBehaviour {
 
 		string[][] jaggedWaypoints = readFile (waypointName);
 
-		Debug.Log (jagged.Length);
-		Debug.Log (jagged[0].Length);
+		//Debug.Log (jagged.Length);
+		//Debug.Log (jagged[0].Length);
 		
 		// assign how big our terrain should be! [:
 		terrainLength = jagged[0].Length;
 		terrainHeight = jagged.Length;
 		
-		Debug.Log("Terrain Height: " + terrainHeight);
-		Debug.Log("Terrain Length: " + terrainLength);
+		//Debug.Log("Terrain Height: " + terrainHeight);
+		//Debug.Log("Terrain Length: " + terrainLength);
 
-		Debug.Log("Waypoint Height: " + jaggedWaypoints[0].Length);
-		Debug.Log("Waypoint Length: " + jaggedWaypoints.Length);
+		//Debug.Log("Waypoint Height: " + jaggedWaypoints[0].Length);
+		//Debug.Log("Waypoint Length: " + jaggedWaypoints.Length);
 		
 		
 		for (int y = 0; y < jagged.Length - 1; y++)
@@ -271,8 +271,8 @@ public class EditLevel : MonoBehaviour {
 			for (int x = 0; x < jagged[0].Length; x++)
 			{
 				int Value = int.Parse(jagged[y][x]);
-				//Debug.Log("X: " + x);
-				//Debug.Log("Y: " + y);
+				////Debug.Log("X: " + x);
+				////Debug.Log("Y: " + y);
 				GameObject assignedNode = Instantiate(emptyNode, new Vector3(x * i_SizeDiff, 0, y * i_SizeDiff), Quaternion.identity) as GameObject;
 				
 				//Assign the node a specific colour!
@@ -324,7 +324,7 @@ public class EditLevel : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log ("Latest Waypoint in the CSV: " + latestWaypoint);
+		//Debug.Log ("Latest Waypoint in the CSV: " + latestWaypoint);
 
 		if(levelNodes[y][x].GetComponent<NodeDetails>().waypointID == 0)
 		{
@@ -498,7 +498,7 @@ public class EditLevel : MonoBehaviour {
 	void UnselectedWaypoint(int x, int y)
 	{
 		int removeFromWaypointID = levelNodes [y] [x].GetComponent<NodeDetails> ().waypointID;
-		Debug.Log ("Remove from CSV any waypoint above: " + removeFromWaypointID);
+		//Debug.Log ("Remove from CSV any waypoint above: " + removeFromWaypointID);
 
 		// do until the waypoints id in the levelNodes list doesnt increase again
 		for (int i = 0; i < levelNodes.Count; i++)
@@ -578,7 +578,7 @@ public class EditLevel : MonoBehaviour {
 		
 		if (Physics.Raycast (ray1, out hit1))
 		{
-			Debug.Log("Hit something");
+			//Debug.Log("Hit something");
 			// if we hit a transformable gameobject	
 			if(hit1.collider.transform.gameObject.GetComponent<ToggleOutline>() != null)
 			{
@@ -601,7 +601,7 @@ public class EditLevel : MonoBehaviour {
 
 				previousNode = hit1.collider.gameObject;
 
-				Debug.Log("Turn on the outline!");
+				//Debug.Log("Turn on the outline!");
 			}
 		}
 		else
@@ -661,7 +661,7 @@ public class EditLevel : MonoBehaviour {
 							{
 								// calculate if we can set a waypoint here!
 								hit.transform.gameObject.GetComponent<NodeDetails>().waypointID = CheckIfWaypointIsValid(hit.transform.gameObject.GetComponent<NodeDetails>().x, hit.transform.gameObject.GetComponent<NodeDetails>().y);
-								Debug.Log("New Waypoint number is : " + hit.transform.gameObject.GetComponent<NodeDetails>().waypointID);
+								//Debug.Log("New Waypoint number is : " + hit.transform.gameObject.GetComponent<NodeDetails>().waypointID);
 							}
 					}
 
@@ -675,7 +675,7 @@ public class EditLevel : MonoBehaviour {
 			Camera.main.transform.position += -(Vector3.up * Input.GetAxis("Mouse ScrollWheel"));
 		}
 
-		Debug.Log ("Mouse Scroll Wheel value : " + (Vector3.forward * Input.GetAxis ("Mouse ScrollWheel")));
+		//Debug.Log ("Mouse Scroll Wheel value : " + (Vector3.forward * Input.GetAxis ("Mouse ScrollWheel")));
 
 		if(Input.GetKey(KeyCode.Alpha1))
 		{

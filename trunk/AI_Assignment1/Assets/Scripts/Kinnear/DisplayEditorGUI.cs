@@ -64,11 +64,11 @@ public class DisplayEditorGUI : MonoBehaviour {
 
 		for(int i = 0; i < GetComponent<LoadLevels>().levels.Count; i++)
 		{
-			Debug.Log("Amt of levels we loaded: " + GetComponent<LoadLevels>().levels.Count);
+			//Debug.Log("Amt of levels we loaded: " + GetComponent<LoadLevels>().levels.Count);
 
 			if(GUI.Button(new Rect(0, (buttonHeight * i) + (buttonHeightSpacing * i), buttonWidth + 30, buttonHeight), GetComponent<LoadLevels>().levels[i].name))
 			{
-				Debug.Log(GetComponent<LoadLevels>().levels[i].name);
+				//Debug.Log(GetComponent<LoadLevels>().levels[i].name);
 
 				// Time to load this level!
 				GetComponent<EditLevel>().levelName = "Assets/Resources/" + GetComponent<LoadLevels>().levels[i].name + ".txt";
@@ -97,7 +97,7 @@ public class DisplayEditorGUI : MonoBehaviour {
 			}
 			else 
 			{
-				Debug.Log("Invalid Terrain Width or Height Please enter a value more than 0. Or the Map Name does not contain any characters!");
+				//Debug.Log("Invalid Terrain Width or Height Please enter a value more than 0. Or the Map Name does not contain any characters!");
 			}
 		}
 
@@ -126,7 +126,7 @@ public class DisplayEditorGUI : MonoBehaviour {
 		GameObject tempHolder = Instantiate(GetComponent<EditLevel>().emptyNode,Vector3.zero,Quaternion.identity) as GameObject;
 		PrefabArray = tempHolder.GetComponent<NodeDetails> ().PrefabArray;
 		numberOfPrefabs = PrefabArray.Length;
-		Debug.Log (numberOfPrefabs);
+//		//Debug.Log (numberOfPrefabs);
 	}
 
 	void OnGUI()
