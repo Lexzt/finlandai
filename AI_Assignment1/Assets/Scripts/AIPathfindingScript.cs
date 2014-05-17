@@ -52,28 +52,28 @@ public class AIPathfindingScript : MonoBehaviour {
 
 	        if(s_Path == null)
 	        {
-				Debug.Log("RunErrorCheck1");
+//				//Debug.Log("RunErrorCheck1");
 				s_Path = DijkstraAlgorithm.Dijkstra(FinalArray,
 													gameObject.GetComponent<CurrentNodeScript>().currentNode,
 													player.GetComponent<CurrentNodeScript>().currentNode);
-				Debug.Log("Error1");
+				//Debug.Log("Error1");
 			}
 	        else if (m_bReCalc == true)
 	        {
-				Debug.Log("RunErrorCheck2");
+//				//Debug.Log("RunErrorCheck2");
 	            m_bReCalc = false;
 	            currentTarget.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-				Debug.Log("RunErrorCheck3");
+//				//Debug.Log("RunErrorCheck3");
 
-				Debug.Log(gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.x + ", " + gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.y + ", " + gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.z);
-				Debug.Log(player.GetComponent<CurrentNodeScript>().currentNode.transform.position.x + ", " + player.GetComponent<CurrentNodeScript>().currentNode.transform.position.y + ", " + player.GetComponent<CurrentNodeScript>().currentNode.transform.position.z);
-				Debug.Log(FinalArray.Length);
+				//Debug.Log(gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.x + ", " + gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.y + ", " + gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position.z);
+				//Debug.Log(player.GetComponent<CurrentNodeScript>().currentNode.transform.position.x + ", " + player.GetComponent<CurrentNodeScript>().currentNode.transform.position.y + ", " + player.GetComponent<CurrentNodeScript>().currentNode.transform.position.z);
+				//Debug.Log(FinalArray.Length);
 
 	            s_Path.Clear();
 	            s_Path = DijkstraAlgorithm.Dijkstra(FinalArray,
 								                    gameObject.GetComponent<CurrentNodeScript>().currentNode,
 								                    player.GetComponent<CurrentNodeScript>().currentNode);
-				Debug.Log("Error2");
+				//Debug.Log("Error2");
 	        }
 	        
 			if (gameObject.GetComponent<CurrentNodeScript>().currentNode.transform.position != player.GetComponent<CurrentNodeScript>().currentNode.transform.position)

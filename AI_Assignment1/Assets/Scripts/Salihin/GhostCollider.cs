@@ -26,24 +26,28 @@ public class GhostCollider : MonoBehaviour {
 				if(BitCollider.gameObject.name == "Shadow(Clone)")
 				{
 					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[0], Ghost.transform.position, Quaternion.identity);
+					Destroy(BitCollider.gameObject);
 				}
-				else if(BitCollider.gameObject.name == "Prediction AI(Kinnear)(Clone)")
+				else if(BitCollider.gameObject.name == "Prediction AI Spawner(Clone)")
 				{
-					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[1], Ghost.transform.position, Quaternion.identity);
+//					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[1], Ghost.transform.position, Quaternion.identity);
+					BitCollider.gameObject.transform.position = Ghost.transform.position;
 				}
-				else if(BitCollider.gameObject.name == "Waypoint AI(Kinnear)(Clone)")
+				else if(BitCollider.gameObject.name == "Waypoint AI Spawner(Clone)")
 				{
-					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[2], Ghost.transform.position, Quaternion.identity);
+//					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[2], Ghost.transform.position, Quaternion.identity);
+					BitCollider.gameObject.transform.position = Ghost.transform.position;
 				}
 				else if(BitCollider.gameObject.name == "AStarAI(Clone)")
 				{
 					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[3], Ghost.transform.position, Quaternion.identity);
+					Destroy(BitCollider.gameObject);
 				}
 				else if(BitCollider.gameObject.name == "DijkstraAI(Clone)")
 				{
 					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[4], Ghost.transform.position, Quaternion.identity);
+					Destroy(BitCollider.gameObject);
 				}
-				Destroy(BitCollider.gameObject);
 			}
 			else
 			{
