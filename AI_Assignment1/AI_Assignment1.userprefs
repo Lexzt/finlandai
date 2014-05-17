@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Salihin\PlayerHUD.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AIPathfindingScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\LevelGenerator.cs" Line="291" Column="3" />
-      <File FileName="Assets\Scripts\Salihin\BitCollection.cs" Line="18" Column="20" />
-      <File FileName="Assets\Scripts\Salihin\PlayerScript.cs" Line="33" Column="37" />
-      <File FileName="Assets\Scripts\Salihin\PlayerHUD.cs" Line="12" Column="79" />
+      <File FileName="Assets\Scripts\AIPathfindingScript.cs" Line="86" Column="26" />
+      <File FileName="Assets\Scripts\AIAStarScript.cs" Line="75" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

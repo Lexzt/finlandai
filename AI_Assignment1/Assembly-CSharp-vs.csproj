@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\FollowScript.cs" />
      <Compile Include="Assets\Scripts\Kinnear\AStarWaypoint.cs" />
      <Compile Include="Assets\Scripts\Kinnear\DisplayEditorGUI.cs" />
+     <Compile Include="Assets\Scripts\Kinnear\DisplayMenu.cs" />
      <Compile Include="Assets\Scripts\Kinnear\DrawLines.cs" />
      <Compile Include="Assets\Scripts\Kinnear\EditLevel.cs" />
      <Compile Include="Assets\Scripts\Kinnear\LoadLevels.cs" />
