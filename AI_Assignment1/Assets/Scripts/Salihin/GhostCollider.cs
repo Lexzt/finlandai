@@ -22,7 +22,28 @@ public class GhostCollider : MonoBehaviour {
 		{
 			if(PlayerScript.invulnerable)
 			{
-				BitCollider.gameObject.transform.position = Ghost.transform.position;
+				//BitCollider.gameObject.transform.position = Ghost.transform.position;
+				if(BitCollider.gameObject.name == "Shadow(Clone)")
+				{
+					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[0], Ghost.transform.position, Quaternion.identity);
+				}
+				else if(BitCollider.gameObject.name == "Prediction AI(Kinnear)(Clone)")
+				{
+					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[1], Ghost.transform.position, Quaternion.identity);
+				}
+				else if(BitCollider.gameObject.name == "Waypoint AI(Kinnear)(Clone)")
+				{
+					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[2], Ghost.transform.position, Quaternion.identity);
+				}
+				else if(BitCollider.gameObject.name == "AStarAI(Clone)")
+				{
+					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[3], Ghost.transform.position, Quaternion.identity);
+				}
+				else if(BitCollider.gameObject.name == "DijkstraAI(Clone)")
+				{
+					Instantiate(GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>().AIArray[4], Ghost.transform.position, Quaternion.identity);
+				}
+				Destroy(BitCollider.gameObject);
 			}
 			else
 			{

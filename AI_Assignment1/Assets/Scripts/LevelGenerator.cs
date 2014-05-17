@@ -38,7 +38,8 @@ public class LevelGenerator : MonoBehaviour {
 	private List<int> ListofEndGame = new List<int>();	
 
 	private GameObject PlayerObj;
-
+    private List<List<GameObject>> CurrentNodeArray;
+	
     void Awake()
     {
         if (LevelGeneratorInstance != null && LevelGeneratorInstance != this)
@@ -79,6 +80,8 @@ public class LevelGenerator : MonoBehaviour {
         // Level Files to retrive File Data from Resource Folder
         LevelFiles = GetComponent<LoadLevels>();
         LevelFiles.LoadLevelsIntoMemory();
+
+		CurrentNodeArray = new List<List<GameObject>> ();
 
         // Initalize First Level
         GameObjectsArray = new List<List<GameObject>>();
@@ -135,7 +138,8 @@ public class LevelGenerator : MonoBehaviour {
 		int SendToListOfEndGame = 0;
 
         // List of New Game Object per Level
-        List<GameObject> LevelValues = new List<GameObject>();
+        List<GameObject> LevelValues = new List<GameObject> ();
+		List<GameObject> ReturnArray = new List<GameObject> ();
 
         // clear the list if there was anything inside it just in case
         waypointNodes.Clear();
@@ -157,7 +161,9 @@ public class LevelGenerator : MonoBehaviour {
             for (int x = 0; x < jagged[0].Length; x++)
             {
                 int Value = int.Parse(jagged[y][x]);
-                LevelValues.Add(Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity) as GameObject);
+
+				GameObject obj = Instantiate(PrefabArray[Value], new Vector3(f_SizeDiff / 2 + (x * f_SizeDiff), f_SizeDiff / 2, f_SizeDiff / 2 + (y * f_SizeDiff)), Quaternion.identity) as GameObject;
+                LevelValues.Add(obj);
                 firstWaypointArray.Add(int.Parse(jaggedWaypoints[y][x])); // assign the waypoint to the node
                 firstMapData.Add(int.Parse(jagged[y][x]));
 
@@ -170,6 +176,11 @@ public class LevelGenerator : MonoBehaviour {
 				{
 					SendToListOfEndGame += 3;
 				}
+
+				if(Value == 0 || Value == 4 || Value == 5 || Value == 6 || Value == 7)
+				{
+					ReturnArray.Add(obj);
+				}
             }
             waypointNodes.Add(firstWaypointArray);
             mapData.Add(firstMapData);
@@ -180,6 +191,7 @@ public class LevelGenerator : MonoBehaviour {
         DisableMeshRenderer("EnemySpawn");
 
 		ListofEndGame.Add (SendToListOfEndGame);
+		CurrentNodeArray.Add (ReturnArray);
         return LevelValues;
     }
 
@@ -374,4 +386,14 @@ public class LevelGenerator : MonoBehaviour {
         }
         return ReturnArray.ToArray();
     }
+
+	public GameObject[] CurrentNodeActiveLevel ()
+	{
+		List<GameObject> ReturnArray = new List<GameObject>();
+		foreach (GameObject v in CurrentNodeArray[CurrentLevelNo])
+		{
+			ReturnArray.Add(v);
+		}
+		return ReturnArray.ToArray();
+	}
 }
